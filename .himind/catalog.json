@@ -4,7 +4,7 @@
   "distribution_id": "mrbaoquan/himind-ext-projects",
   "channel": "stable",
   "catalog_id": "public",
-  "generation": "sync-b224406b35fd08e2",
+  "generation": "sync-5fde45c0269d52cc",
   "plugins": [],
   "skills": [],
   "workflows": [
@@ -107,7 +107,7 @@
             }
           ]
         },
-        "generated_at": "unix-ms:1790597775124",
+        "generated_at": "unix-ms:1790597965084",
         "root": {
           "id": "com.himind.workflow.wechat-experience-upload",
           "kind": "workflow",
@@ -125,15 +125,15 @@
       "name": "微信小程序体验版上传",
       "organization_reason": "",
       "plugin_dependencies": [],
-      "published_at": "2026-09-28T12:16:18Z",
+      "published_at": "2026-09-28T12:19:29Z",
       "release_notes": "迁入项目扩展仓；依赖锁按依赖制品载荷重算，修复组织分发安装误报内容变更。",
       "release_tag": "workflow/com.himind.workflow.wechat-experience-upload@1.3.1",
       "sha256": "5646c5af1caab4d180e7066b2809ef6514129c05083508636a000f0a087f20a7",
-      "signature": "vb703+k4e2EeAm8wzuCNGYueZ5lAHQbzQlCEfE1JRst7TrGvV2wr25qWWfa2iXtevHJVtyfez7aRk77u4oUv6ebJKENZ3+YVGA93e/5HxJHDFfv4bit00t7rVpX1fEGJLqjkDFILJgLBbbxrkgtGQLSniFpy5NqIePXmMosxnUuNCaiHM1w/IZl6rM04lN4CwRPqippktqrutYR4UD7CSlWqdrNu3DIk2YDG/tb98hH+7bOTa8IAJJds/oN6c2bZsKHkQNOqi4k5qcdVJ5BpSHqUvl8OlFnfEiwoJ/4sVTA/3aUVAtzEeEz8yqaz/MP0M/Jp5cvpPl/EvF28Ey5RMQ==",
+      "signature": "OSrWJqTrc0XcMOsjDzT2vxpxJIbln06InLTXwwW+WQfyvArxDhrxKnj7dWms4TKJsfTGKZyYCmiXc35g15t8WNOMVhp6sPkM62yi6TnrrtA5EyYgkREw5xAFVnOD3lblXsgYdV3CPzwdNBCrBs+Rxc5Ua1jNqhAWleaVcDTDJ51sxmvtRLvcStdPuJV/ymkJfQ9H56VQO6nCcFMs06hL295DKCGMkpVO4TlkxBt3X3Z1/x/1P6Z3icX29TCz+sMJDoWa+CuwkUe/9/Wm6DzWLOOqmiGvjmfLj6xvx3u681+bhqPBfM++p3PUGr189AbqTt3Ad588TLW1poqsUExW8qKv+yjJ0juGZkBJTi7SNpzXk0YhNdExBfAFIo5tJPPmrTtgi0dCxjz3tnGEmohhjbimNtzZ2MZaVFixbpsy8miTlTEx7ik1UDvbx5t9lO5cblpDnkpXa3PwCcoys/udbkVb7Y3GryqWKoKEgy38f0Ecu50csnHqOUQrP0tgiD9q",
       "signature_algorithm": "rsa-pss-sha256",
       "signature_key_id": "himind-production-2026",
       "source": "github",
-      "source_commit": "280dac6fe0545c42fed638b6a2241bc2b92281ff",
+      "source_commit": "3920634e614fa1c5cb6e57722b4cf8741b93100d",
       "source_tree": "72b4a38226fd0efa6072e741d79e96bc400d2215",
       "version": "1.3.1",
       "workflow_id": "com.himind.workflow.wechat-experience-upload"
