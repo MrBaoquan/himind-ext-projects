@@ -4,15 +4,15 @@
   "distribution_id": "mrbaoquan/himind-ext-projects",
   "channel": "stable",
   "catalog_id": "public",
-  "generation": "sync-e038bc841b6e6b95",
+  "generation": "sync-b224406b35fd08e2",
   "plugins": [],
   "skills": [],
   "workflows": [
     {
       "allow_disable": true,
       "allow_uninstall": true,
-      "artifact_id": "github:workflow/com.himind.workflow.wechat-experience-upload@1.3.0:com.himind.workflow.wechat-experience-upload-1.3.0.hmwf",
-      "artifact_sha256": "68290df7b533e26f85667c97adff228cc3a5da0be300c6af8492682c84fa9065",
+      "artifact_id": "github:workflow/com.himind.workflow.wechat-experience-upload@1.3.1:com.himind.workflow.wechat-experience-upload-1.3.1.hmwf",
+      "artifact_sha256": "5646c5af1caab4d180e7066b2809ef6514129c05083508636a000f0a087f20a7",
       "assignment": "optional",
       "author_name": "",
       "capability_ids": [
@@ -39,6 +39,136 @@
             "artifact_url": "https://github.com/MrBaoquan/himind-extensions/releases/download/plugin%2Fcom.himind.wechat-miniprogram-tools@0.3.13/com.himind.wechat-miniprogram-tools-0.3.13.hmpkg"
           },
           "pinned": true
+        }
+      ],
+      "description": "选择项目和展馆、指定开发或生产环境，可选通过 DSH 完成功能或 Bug 修复，构建后上传微信体验版。",
+      "download_url": "https://github.com/MrBaoquan/himind-ext-projects/releases/download/workflow%2Fcom.himind.workflow.wechat-experience-upload@1.3.1/com.himind.workflow.wechat-experience-upload-1.3.1.hmwf",
+      "extension_lock": {
+        "dependencies": [
+          {
+            "id": "com.himind.wechat-miniprogram-tools",
+            "kind": "plugin",
+            "required": true,
+            "sha256": "94b0497d3e9684ba00bd0d61ea39a483a268e560e2b9bbcf9cd04aa5052da07a",
+            "source_id": "MrBaoquan/himind-extensions",
+            "version": "0.3.13"
+          }
+        ],
+        "environment": {
+          "capabilities": [
+            {
+              "availability": "local",
+              "id": "workflow.candidate.freeze",
+              "provider": "builtin",
+              "required": true
+            },
+            {
+              "availability": "local",
+              "id": "wechat.miniprogram.build",
+              "provider": "plugin:com.himind.wechat-miniprogram-tools",
+              "required": true
+            },
+            {
+              "availability": "local",
+              "id": "wechat.miniprogram.ci.readiness",
+              "provider": "plugin:com.himind.wechat-miniprogram-tools",
+              "required": true
+            },
+            {
+              "availability": "local",
+              "id": "wechat.miniprogram.upload",
+              "provider": "plugin:com.himind.wechat-miniprogram-tools",
+              "required": true
+            }
+          ],
+          "connectors": [
+            {
+              "availability": "local",
+              "credential_ownership": "agent",
+              "credentials": [
+                {
+                  "handle": "wechat-upload-private-key",
+                  "kind": "file_path",
+                  "required": false,
+                  "target": "private_key_path"
+                }
+              ],
+              "id": "wechat-miniprogram",
+              "policy_revision": 0,
+              "required": true
+            }
+          ],
+          "runtimes": [
+            {
+              "id": "himind.builtin",
+              "required": true,
+              "status": "ready",
+              "version": "0.1.5-rc.2"
+            }
+          ]
+        },
+        "generated_at": "unix-ms:1790597775124",
+        "root": {
+          "id": "com.himind.workflow.wechat-experience-upload",
+          "kind": "workflow",
+          "sha256": "5646c5af1caab4d180e7066b2809ef6514129c05083508636a000f0a087f20a7",
+          "version": "1.3.1"
+        },
+        "schema_version": "extension_lock.v1"
+      },
+      "file_name": "com.himind.workflow.wechat-experience-upload-1.3.1.hmwf",
+      "file_size": 8884,
+      "install_mode": "prompt",
+      "managed": false,
+      "management": "user_managed",
+      "min_agent_version": "0.3.47",
+      "name": "微信小程序体验版上传",
+      "organization_reason": "",
+      "plugin_dependencies": [],
+      "published_at": "2026-09-28T12:16:18Z",
+      "release_notes": "迁入项目扩展仓；依赖锁按依赖制品载荷重算，修复组织分发安装误报内容变更。",
+      "release_tag": "workflow/com.himind.workflow.wechat-experience-upload@1.3.1",
+      "sha256": "5646c5af1caab4d180e7066b2809ef6514129c05083508636a000f0a087f20a7",
+      "signature": "vb703+k4e2EeAm8wzuCNGYueZ5lAHQbzQlCEfE1JRst7TrGvV2wr25qWWfa2iXtevHJVtyfez7aRk77u4oUv6ebJKENZ3+YVGA93e/5HxJHDFfv4bit00t7rVpX1fEGJLqjkDFILJgLBbbxrkgtGQLSniFpy5NqIePXmMosxnUuNCaiHM1w/IZl6rM04lN4CwRPqippktqrutYR4UD7CSlWqdrNu3DIk2YDG/tb98hH+7bOTa8IAJJds/oN6c2bZsKHkQNOqi4k5qcdVJ5BpSHqUvl8OlFnfEiwoJ/4sVTA/3aUVAtzEeEz8yqaz/MP0M/Jp5cvpPl/EvF28Ey5RMQ==",
+      "signature_algorithm": "rsa-pss-sha256",
+      "signature_key_id": "himind-production-2026",
+      "source": "github",
+      "source_commit": "280dac6fe0545c42fed638b6a2241bc2b92281ff",
+      "source_tree": "72b4a38226fd0efa6072e741d79e96bc400d2215",
+      "version": "1.3.1",
+      "workflow_id": "com.himind.workflow.wechat-experience-upload"
+    },
+    {
+      "allow_disable": true,
+      "allow_uninstall": true,
+      "artifact_id": "github:workflow/com.himind.workflow.wechat-experience-upload@1.3.0:com.himind.workflow.wechat-experience-upload-1.3.0.hmwf",
+      "artifact_sha256": "68290df7b533e26f85667c97adff228cc3a5da0be300c6af8492682c84fa9065",
+      "assignment": "optional",
+      "author_name": "",
+      "capability_ids": [
+        "workflow.candidate.freeze",
+        "wechat.miniprogram.build",
+        "wechat.miniprogram.ci.readiness",
+        "wechat.miniprogram.upload"
+      ],
+      "categories": [],
+      "channel": "stable",
+      "dependencies": [
+        {
+          "id": "com.himind.wechat-miniprogram-tools",
+          "kind": "plugin",
+          "min_version": "0.3.13",
+          "pinned": true,
+          "required": true,
+          "sha256": "2be33b927d4aea01a010f2df60e92dc91d759a1b17e8c8ad3d84fb2aaa666aa8",
+          "source": {
+            "artifact_url": "https://github.com/MrBaoquan/himind-extensions/releases/download/plugin%2Fcom.himind.wechat-miniprogram-tools@0.3.13/com.himind.wechat-miniprogram-tools-0.3.13.hmpkg",
+            "id": "github:MrBaoquan/himind-extensions",
+            "kind": "github",
+            "reference": "plugin/com.himind.wechat-miniprogram-tools@0.3.13",
+            "repository": "MrBaoquan/himind-extensions"
+          },
+          "version": "0.3.13"
         }
       ],
       "description": "选择项目和展馆、指定开发或生产环境，可选通过 DSH 完成功能或 Bug 修复，构建后上传微信体验版。",
