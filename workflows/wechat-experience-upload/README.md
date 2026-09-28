@@ -59,6 +59,9 @@ miniprogram-ci upload
 
 ## 版本
 
+1.3.1：依赖锁改为按依赖制品的载荷摘要计算，组织分发安装不再把已安装的
+`com.himind.wechat-miniprogram-tools` 判成内容变更。
+
 1.3.0：从官方扩展仓迁入本仓，改由 `MrBaoquan/himind-ext-projects` 分发；依赖
 `com.himind.wechat-miniprogram-tools` 声明最低版本 0.3.13，补齐默认入口 `develop` 与
 默认出口 `experience_version`。
