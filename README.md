@@ -25,7 +25,7 @@
 
 ```powershell
 $env:HIMIND_EXTENSION_SIGNING_KEY_ID = 'himind-production-2026'
-$env:HIMIND_EXTENSION_SIGNING_PRIVATE_KEY_PATH = 'C:\path\to\extension-private.pem'
+$env:HIMIND_EXTENSION_SIGNING_PRIVATE_KEY_PATH = "$env:LOCALAPPDATA\HiMind\signing\private\himind-production-2026.key.pem"
 
 ./tools/release/publish-extension.ps1 `
   -Kind workflow `
@@ -34,6 +34,10 @@ $env:HIMIND_EXTENSION_SIGNING_PRIVATE_KEY_PATH = 'C:\path\to\extension-private.p
   -AgentExecutable F:\WebProjects\项目看板\himind-agent\target\release\himind-agent.exe `
   -AgentProfile development
 ```
+
+`HIMIND_EXTENSION_SIGNING_*` 是发布脚本这一组变量，和 Agent 运行时的
+`HIMIND_SIGNING_*` 无关；用来上传 Release 的 GitHub App 私钥
+（`*.private-key.pem`）不是签名密钥，用它签出来的清单装不上。
 
 发布前必须先把提交推到 `origin/main`：发布清单里的源码提交与 Release 目标提交都取自
 `HEAD`，远端取不到就会被拒绝。发布脚本同时执行 `go test ./...` 与仓库自检，扩展仓
