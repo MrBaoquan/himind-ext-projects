@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "repository": "https://github.com/MrBaoquan/himind-ext-projects.git",
+  "distribution_id": "mrbaoquan/himind-ext-projects",
+  "channel": "stable",
+  "catalog_id": "public",
+  "default_distribution_targets": ["workbench", "github"],
+  "default_branch": "main",
+  "dependency_catalogs": ["../himind-extensions/.himind/catalog.json"],
+  "extensions": [
+    {"type": "workflow", "id": "com.himind.workflow.wechat-experience-upload", "path": "workflows/wechat-experience-upload"}
+  ]
+}

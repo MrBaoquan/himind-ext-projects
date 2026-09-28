@@ -1,0 +1,33 @@
+name: Validate extensions
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout tooling repository
+        uses: actions/checkout@v4
+        with:
+          repository: MrBaoquan/himind-extensions
+          path: .ci/himind-extensions
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22.x"
+          cache: false
+      - name: Point the tooling dependency at the checked-out repository
+        shell: pwsh
+        run: |
+          $toolRoot = ('{0}/.ci/himind-extensions' -f $env:GITHUB_WORKSPACE).Replace('\', '/')
+          go mod edit -replace "github.com/MrBaoquan/himind-extensions=$toolRoot"
+      - name: Test tooling entries
+        run: go test ./...
+      - name: Validate extension repository
+        run: go run ./tools/cmd/himind-repo-check
