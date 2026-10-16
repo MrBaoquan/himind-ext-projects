@@ -14,9 +14,6 @@
     "wechat.miniprogram.ci.readiness",
     "wechat.miniprogram.upload"
   ],
-  "scopes": [
-    "wechat.miniprogram.deploy"
-  ],
   "supported_platforms": [
     "windows"
   ],
