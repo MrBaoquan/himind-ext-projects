@@ -9,6 +9,7 @@
 | 扩展 | 类型 | 稳定 ID | 说明 |
 | --- | --- | --- | --- |
 | 微信小程序体验版上传 | workflow | `com.himind.workflow.wechat-experience-upload` | 展馆预约小程序：选展馆与环境构建、可选 DSH 开发修复、冻结候选、上传微信体验版 |
+| UPM 包开发规范 | skill | `com.himind.skill.upm-package-development` | Unity UPM 包的结构、程序集、测试与内网发布规范；UNIHper 作为软依赖补充 |
 
 ## 在 Agent 里安装
 

@@ -1,0 +1,28 @@
+{
+  "id": "com.himind.skill.upm-package-development",
+  "name": "UPM 包开发规范",
+  "author": "超级管理员",
+  "categories": [
+    "software-engineering"
+  ],
+  "version": "1.0.0",
+  "scope": "organization",
+  "description": "规定 Unity UPM 包的目录、程序集、测试与内网发布要求，新建或改造 UPM 包时使用。",
+  "release_notes": "1.0.0：首个版本。规范 UPM 包目录、清单、程序集、平台适配、.meta、测试与内网发布；含包名前缀、文档放 Documentation~/、CHANGELOG 禁模板残留、改名包必须发布等条款。",
+  "min_agent_version": "0.3.1",
+  "supported_clients": [
+    "agent-skills"
+  ],
+  "distribution_targets": [
+    "workbench",
+    "github"
+  ],
+  "capabilities": [],
+  "plugin_dependencies": [],
+  "risk_summary": "可能按用户要求修改目标 Unity 工程内的 C#、asmdef、package.json、CHANGELOG 与目录结构；禁止访问工程外路径、凭据与构建缓存，涉及 registry 发布、包上传或版本控制提交时必须先确认范围。",
+  "contents": [
+    "skill.json",
+    "SKILL.md",
+    "agents/openai.yaml"
+  ]
+}

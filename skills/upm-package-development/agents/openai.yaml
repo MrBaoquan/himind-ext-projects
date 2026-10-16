@@ -1,0 +1,4 @@
+interface:
+  display_name: "UPM 包开发规范"
+  short_description: "规定 UPM 包的目录、程序集、测试与内网发布"
+  default_prompt: "使用 $upm-package-development 为这个 Unity 工程按规范创建或改造 UPM 包。"

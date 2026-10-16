@@ -8,6 +8,7 @@
   "default_branch": "main",
   "dependency_catalogs": ["../himind-extensions/.himind/catalog.json"],
   "extensions": [
-    {"type": "workflow", "id": "com.himind.workflow.wechat-experience-upload", "path": "workflows/wechat-experience-upload"}
+    {"type": "workflow", "id": "com.himind.workflow.wechat-experience-upload", "path": "workflows/wechat-experience-upload"},
+    {"type": "skill", "id": "com.himind.skill.upm-package-development", "path": "skills/upm-package-development"}
   ]
 }
