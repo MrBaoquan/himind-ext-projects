@@ -1,0 +1,4 @@
+interface:
+  display_name: "展项 Web 开发助手"
+  short_description: "用 MyriadBox 模板、CDP、体验门禁和独立 dist 完成 H5 展项交付"
+  default_prompt: "使用 $exhibit-web-development 和 $exhibit-experience-direction 选择或创建 MyriadBox 模板，启动 shell=true、mock=true 的 AI 调试会话；真实节点改传 provider=true，用 Playwright/CDP 检查页面，并通过 exhibit.web.experience.inspect 后再构建和验证独立 dist；展项不连接软件分发。"

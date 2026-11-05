@@ -1,0 +1,21 @@
+{
+  "schema_version": "exhibit-development-spec.v1",
+  "exhibit_pid": "replace-with-exhibit-pid",
+  "metadata": {
+    "name": "示例展项",
+    "duration_seconds": 180,
+    "hardware": ["触摸屏*2"]
+  },
+  "video_segments": [],
+  "interaction_states": [],
+  "requirements": [
+    {
+      "requirement_id": "REQ-001",
+      "description": "待机界面提供进入主体验的入口",
+      "source_ref": "table:1/row:13",
+      "acceptance": ["点击入口后进入主体验", "长时间无操作返回待机"],
+      "evidence": ["playmode-test", "development-screenshot"]
+    }
+  ],
+  "unknowns": []
+}

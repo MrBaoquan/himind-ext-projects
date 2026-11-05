@@ -1,0 +1,4 @@
+interface:
+  display_name: "展项开发助手"
+  short_description: "把展项脚本变成可追踪的 UNIHPer Unity 开发与证据闭环"
+  default_prompt: "使用 $exhibit-development 读取展项脚本和规格，结合 $unihper-unity-development 完成一个有界开发任务，并上传可检索的测试、截图或视频证据。"

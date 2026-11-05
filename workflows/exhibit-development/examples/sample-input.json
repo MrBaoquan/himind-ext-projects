@@ -1,0 +1,17 @@
+{
+  "exhibit_id": "replace-with-exhibit-pid",
+  "script_path": "F:\\temp\\exhibit-script.docx",
+  "workspace_root": "F:\\U3DProjects\\exhibit-project",
+  "evidence_items": [
+    {
+      "path": "F:\\temp\\checkpoint-shot.png",
+      "artifact_kind": "development-screenshot",
+      "requirement_ids": [
+        "REQ-001"
+      ],
+      "metadata": {
+        "source": "sample"
+      }
+    }
+  ]
+}

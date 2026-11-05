@@ -1,0 +1,148 @@
+{
+  "id": "com.himind.skill.exhibit-web-development",
+  "name": "展项 Web 开发助手",
+  "author": "马宝全",
+  "categories": [
+    "software-engineering",
+    "content-production"
+  ],
+  "version": "0.4.2",
+  "distribution_targets": [
+    "workbench",
+    "github"
+  ],
+  "scope": "organization",
+  "description": "使用 MyriadBox 版本化模板、AI/CDP 调试、体验门禁与多目标构建交付 H5 展项。",
+  "min_agent_version": "0.3.90",
+  "supported_clients": [
+    "codex",
+    "github-copilot",
+    "workbuddy"
+  ],
+  "capabilities": [
+    {
+      "id": "exhibit.web.template.list",
+      "required": true,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.template.inspect",
+      "required": true,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.template.create",
+      "required": true,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.project.inspect",
+      "required": true,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.experience.inspect",
+      "required": true,
+      "min_version": "0.5.1",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.dev.start",
+      "required": true,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.dev.status",
+      "required": true,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.dev.stop",
+      "required": true,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.build",
+      "required": true,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.dist.verify",
+      "required": true,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.logs.read",
+      "required": true,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.runtime.smoke",
+      "required": true,
+      "min_version": "0.3.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.evidence.pack",
+      "required": true,
+      "min_version": "0.3.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.apk.verify",
+      "required": true,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.android.install",
+      "required": false,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.android.launch",
+      "required": false,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.android.logs",
+      "required": false,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.android.cdp",
+      "required": false,
+      "min_version": "0.4.0",
+      "provider": "com.himind.exhibit-development-tools"
+    }
+  ],
+  "plugin_dependencies": [
+    {
+      "plugin_id": "com.himind.exhibit-development-tools",
+      "required": true,
+      "min_version": "0.5.2"
+    }
+  ],
+  "risk_summary": "可能修改工作区内 H5 源码、配置、媒体、hardware 引用和 dist，并启动本地 Shell、WebView2/Android WebView CDP、Mock/真实 Provider、构建、APK 校验与指定 Android 设备安装；禁止直接操作生产软件发布、提交、推送或外传。",
+  "contents": [
+    "SKILL.md",
+    "agents/openai.yaml",
+    "skill.json",
+    "references/web-delivery.md",
+    "references/experience-gate.md"
+  ],
+  "release_notes": "0.4.2：增加 provider=true 的真实节点浏览器调试流程。"
+}

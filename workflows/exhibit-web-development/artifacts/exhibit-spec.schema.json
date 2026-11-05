@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Exhibit Development Spec",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "requirements"],
+  "properties": {
+    "schema_version": {"const": "exhibit-development-spec.v1"},
+    "exhibit_pid": {"type": "string"},
+    "source_script": {"type": "object", "additionalProperties": true},
+    "metadata": {"type": "object", "additionalProperties": true},
+    "video_segments": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "interaction_states": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["requirement_id", "description", "source_ref", "acceptance", "evidence"],
+        "properties": {
+          "requirement_id": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1},
+          "source_ref": {"type": "string", "minLength": 1},
+          "acceptance": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "evidence": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "unknowns": {"type": "array", "items": {"type": "string"}}
+  }
+}

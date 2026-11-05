@@ -1,0 +1,98 @@
+{
+  "schema_version": "workflow_view.v1",
+  "title": "展项 Web 开发",
+  "sections": [
+    {
+      "id": "target",
+      "title": "展项与工作区",
+      "fields": [
+        {
+          "id": "project_name",
+          "label": "新展项目录名",
+          "type": "text",
+          "required": false,
+          "hint": "从模板创建工程时使用。"
+        },
+        {
+          "id": "template_id",
+          "label": "开始模板",
+          "type": "text",
+          "required": false,
+          "hint": "调用 exhibit.web.template.list 后选择，如 pure-touch@1.0.0。"
+        },
+        {
+          "id": "exhibit_id",
+          "label": "展项 PID",
+          "type": "text",
+          "required": true,
+          "hint": "使用工作台稳定 pid。"
+        },
+        {
+          "id": "script_path",
+          "label": "脚本文件",
+          "type": "text",
+          "required": false,
+          "picker": "",
+          "hint": "从本地脚本开始时填写，不上传原文件。"
+        },
+        {
+          "id": "workspace_root",
+          "label": "MyriadBox展项目录",
+          "type": "text",
+          "required": true,
+          "picker": "directory"
+        },
+        {
+          "id": "cli_path",
+          "label": "MyriadBox CLI (myriad)",
+          "type": "text",
+          "required": true,
+          "picker": ""
+        },
+        {
+          "id": "bridge_path",
+          "label": "IOToolkit.WebBridge",
+          "type": "text",
+          "required": true,
+          "picker": ""
+        },
+        {
+          "id": "smoke_script_path",
+          "label": "冒烟脚本",
+          "type": "text",
+          "required": true,
+          "picker": ""
+        },
+        {
+          "id": "package_output_dir",
+          "label": "内容包输出目录",
+          "type": "text",
+          "required": false,
+          "picker": "directory"
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "title": "开发证据",
+      "fields": [
+        {
+          "id": "evidence_items",
+          "label": "证据列表",
+          "type": "json",
+          "required": false,
+          "default": [],
+          "hint": "每项包含 path、artifact_kind、requirement_ids、metadata；metadata 标记 provider_mode。"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    "from_template",
+    "from_script",
+    "from_spec",
+    "hardware_integration",
+    "delivery"
+  ]
+}
+

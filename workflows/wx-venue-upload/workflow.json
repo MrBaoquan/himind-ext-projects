@@ -1,11 +1,11 @@
 {
   "schema_version": "workflow_package.v1",
-  "id": "com.himind.workflow.wechat-experience-upload",
-  "version": "1.4.3",
+  "id": "com.himind.workflow.wx-venue-upload",
+  "version": "1.4.4",
   "distribution_targets": ["workbench", "github"],
-  "name": "微信小程序体验版上传",
+  "name": "展馆预约小程序上传",
   "description": "选择展馆和服务器环境，构建后上传微信体验版。",
-  "release_notes": "启动只需确认展馆与服务器环境：工作区、版本号、说明、上传通道都有默认值。上传通道留空即自动——有 CI 上传私钥走直传（无需确认），没有才用开发者工具；等待确认期间重跑会续等同一任务，不重复弹确认框。需要插件 0.3.19。",
+  "release_notes": "稳定 ID 调整为 wx-venue-upload，显示名称为“展馆预约小程序上传”；入口出口与执行流程保持不变。需要插件 0.3.19。",
   "min_agent_version": "0.3.47",
   "local_requirements": {
     "platform": "windows",

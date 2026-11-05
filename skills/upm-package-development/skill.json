@@ -1,14 +1,14 @@
 {
   "id": "com.himind.skill.upm-package-development",
   "name": "UPM 包开发规范",
-  "author": "超级管理员",
+  "author": "马宝全",
   "categories": [
     "software-engineering"
   ],
-  "version": "1.0.0",
+  "version": "1.9.0",
   "scope": "organization",
   "description": "规定 Unity UPM 包的目录、程序集、测试与内网发布要求，新建或改造 UPM 包时使用。",
-  "release_notes": "1.0.0：首个版本。规范 UPM 包目录、清单、程序集、平台适配、.meta、测试与内网发布；含包名前缀、文档放 Documentation~/、CHANGELOG 禁模板残留、改名包必须发布等条款。",
+  "release_notes": "1.9.0：补充反向上传/扫码收图规范：普通链接小程序入口、同 URL H5 兜底、独立会话与插件自动接收。",
   "min_agent_version": "0.3.1",
   "supported_clients": [
     "agent-skills"

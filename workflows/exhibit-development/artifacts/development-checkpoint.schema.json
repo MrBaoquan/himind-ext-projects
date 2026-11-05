@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Exhibit Development Checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "checkpoint_id", "summary", "requirements", "verification", "artifacts", "created_at"],
+  "properties": {
+    "schema_version": {"const": "exhibit-development-checkpoint.v1"},
+    "checkpoint_id": {"type": "string", "minLength": 1},
+    "exhibit_pid": {"type": "string"},
+    "spec_revision": {"type": "integer", "minimum": 1},
+    "svn_revision": {"type": "integer", "minimum": 0},
+    "summary": {"type": "string", "minLength": 1},
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["requirement_id", "status"],
+        "properties": {
+          "requirement_id": {"type": "string"},
+          "status": {"enum": ["passed", "failed", "blocked", "not_run"]},
+          "note": {"type": "string"}
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compile", "console", "tests", "visual"],
+      "properties": {
+        "compile": {"enum": ["passed", "failed", "not_run"]},
+        "console": {"enum": ["passed", "failed", "not_run"]},
+        "tests": {"type": "array", "items": {"type": "string"}},
+        "visual": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "artifacts": {"type": "array", "items": {"type": "string"}},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "created_at": {"type": "string", "minLength": 1}
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Exhibit Evidence Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "workspace_root", "artifacts", "artifact_count", "total_bytes"],
+  "properties": {
+    "schema_version": {"const": "exhibit-evidence-manifest.v1"},
+    "generated_at": {"type": "string", "minLength": 1},
+    "workspace_root": {"type": "string", "minLength": 1},
+    "artifact_count": {"type": "integer", "minimum": 0},
+    "total_bytes": {"type": "integer", "minimum": 0},
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "relative_path", "artifact_kind", "file_name", "size_bytes", "sha256"],
+        "properties": {
+          "path": {"type": "string"},
+          "relative_path": {"type": "string"},
+          "artifact_kind": {"type": "string"},
+          "file_name": {"type": "string"},
+          "size_bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "requirement_ids": {"type": "array", "items": {"type": "string"}},
+          "metadata": {"type": "object", "additionalProperties": true}
+        }
+      }
+    }
+  }
+}

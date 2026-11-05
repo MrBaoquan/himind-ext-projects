@@ -8,8 +8,14 @@
 
 | 扩展 | 类型 | 稳定 ID | 说明 |
 | --- | --- | --- | --- |
-| 微信小程序体验版上传 | workflow | `com.himind.workflow.wechat-experience-upload` | 展馆预约小程序：选展馆与环境构建、可选 DSH 开发修复、冻结候选、上传微信体验版 |
+| 展馆预约小程序上传 | workflow | `com.himind.workflow.wx-venue-upload` | 展馆预约小程序：选展馆与环境构建、冻结候选、上传微信体验版 |
 | UPM 包开发规范 | skill | `com.himind.skill.upm-package-development` | Unity UPM 包的结构、程序集、测试与内网发布规范；UNIHper 作为软依赖补充 |
+| 展项开发工具 | plugin | `com.himind.exhibit-development-tools` | 解析脚本、校验规格、检查 Unity/H5 与体验门禁、构建内容包并生成证据清单 |
+| 展项开发助手 | skill | `com.himind.skill.exhibit-development` | 把脚本转成可追踪规格，并按 UNIHPer 约束完成开发与证据同步 |
+| 展项开发 | workflow | `com.himind.workflow.exhibit-development` | 脚本导入、规格确认、UNIHPer 开发、证据上传与人工验收 |
+| 展项 Web 开发助手 | skill | `com.himind.skill.exhibit-web-development` | MyriadBox H5、Provider、体验门禁、Candidate 与证据规则 |
+| 展项体验方向 | skill | `com.himind.skill.exhibit-experience-direction` | H5 展项去 AI 味文案、稳定转场、持续动态、性能与体验验收 |
+| 展项 Web 开发 | workflow | `com.himind.workflow.exhibit-web-development` | H5 实现、体验门禁、多目标构建、WebBridge 冒烟与证据回读 |
 
 ## 在 Agent 里安装
 
@@ -18,6 +24,21 @@
 
 来源带 `.himind/catalog.json`，Agent 可以据此检查更新；本仓发布带 RSA-PSS/SHA-256
 签名，安装时会验签。
+
+### 本地工作副本
+
+开发中的扩展不依赖 Release Catalog。未发布时 `.himind/catalog.json` 为空是正常状态，
+本地来源读取仓库根目录的 `extensions.json`：
+
+```powershell
+himind-agent extension source add-local himind-ext-projects <repo> extensions.json
+himind-agent extension source refresh
+himind-agent extension source install plugin com.himind.exhibit-development-tools
+himind-agent extension source install skill com.himind.skill.exhibit-web-development
+himind-agent extension source install workflow com.himind.workflow.exhibit-web-development
+```
+
+安装后可在扩展工作区看到源码项目，在“我的能力”和“工作流”中使用对应版本。
 
 ## 发布
 
@@ -30,7 +51,7 @@ $env:HIMIND_EXTENSION_SIGNING_PRIVATE_KEY_PATH = "$env:LOCALAPPDATA\HiMind\signi
 
 ./tools/release/publish-extension.ps1 `
   -Kind workflow `
-  -ExtensionPath workflows/wechat-experience-upload `
+  -ExtensionPath workflows/wx-venue-upload `
   -Repository MrBaoquan/himind-ext-projects `
   -AgentExecutable F:\WebProjects\项目看板\himind-agent\target\release\himind-agent.exe `
   -AgentProfile development
@@ -46,3 +67,5 @@ $env:HIMIND_EXTENSION_SIGNING_PRIVATE_KEY_PATH = "$env:LOCALAPPDATA\HiMind\signi
 
 发布链路要求 `himind-extensions` 检出在同级目录（`../himind-extensions`），命名、
 校验、打包与索引逻辑全部复用官方仓的同一份实现，见 [tools/README.md](tools/README.md)。
+
+

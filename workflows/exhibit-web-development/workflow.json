@@ -1,0 +1,487 @@
+{
+  "schema_version": "workflow_package.v1",
+  "id": "com.himind.workflow.exhibit-web-development",
+  "version": "0.4.2",
+  "distribution_targets": [
+    "workbench",
+    "github"
+  ],
+  "name": "展项 Web 开发",
+  "description": "从脚本或规格出发，使用 MyriadBox 模板和 AI/CDP 调试完成 H5 开发，构建 Web/Windows/Android 多目标，验证独立 dist、APK 与设备证据。",
+  "release_notes": "0.4.2：开发步骤支持真实 Provider 浏览器调试。",
+  "min_agent_version": "0.3.90",
+  "execution_policy": "segmented",
+  "entrypoints": [
+    {
+      "id": "from_script",
+      "at_step": "EXW-SCRIPT-PARSE",
+      "label": "从本地脚本开始",
+      "requires": []
+    },
+    {
+      "id": "from_spec",
+      "at_step": "EXW-DEVELOP",
+      "label": "从已发布规格开始",
+      "requires": [
+        "exhibit-spec"
+      ]
+    },
+    {
+      "id": "hardware_integration",
+      "at_step": "EXW-SMOKE",
+      "label": "接真实 Provider",
+      "requires": [
+        "candidate"
+      ]
+    },
+    {
+      "id": "delivery",
+      "at_step": "EXW-BUILD",
+      "label": "从构建与交付开始",
+      "requires": []
+    },
+    {
+      "id": "from_template",
+      "at_step": "EXW-PROJECT-INSPECT",
+      "label": "从 MyriadBox 模板开始",
+      "requires": []
+    }
+  ],
+  "default_entrypoint": "from_script",
+  "exits": [
+    {
+      "id": "spec_published",
+      "at_step": "EXW-SPEC-PUBLISH",
+      "label": "规格已发布",
+      "produces": [
+        "exhibit-spec"
+      ]
+    },
+    {
+      "id": "candidate_frozen",
+      "at_step": "EXW-CANDIDATE",
+      "label": "内容包候选已冻结",
+      "produces": [
+        "candidate"
+      ]
+    },
+    {
+      "id": "development_checkpoint",
+      "at_step": "EXW-REVIEW",
+      "label": "开发与冒烟证据已验收",
+      "produces": [
+        "development-checkpoint",
+        "evidence-manifest"
+      ]
+    }
+  ],
+  "default_exitpoint": "development_checkpoint",
+  "capabilities": [
+    "exhibit.script.parse",
+    "workbench.exhibit.intro.update",
+    "workbench.exhibit.spec.publish",
+    "exhibit.script.spec.validate",
+    "exhibit.web.template.list",
+    "exhibit.web.template.inspect",
+    "exhibit.web.template.create",
+    "exhibit.web.project.inspect",
+    "exhibit.web.dev.start",
+    "exhibit.web.dev.status",
+    "exhibit.web.dev.stop",
+    "exhibit.web.logs.read",
+    "exhibit.web.build",
+    "exhibit.web.dist.verify",
+    "exhibit.web.package",
+    "workflow.candidate.freeze",
+    "exhibit.runtime.smoke",
+    "exhibit.evidence.pack",
+    "workbench.exhibit.artifact.upload",
+    "workbench.exhibit.artifact.list",
+    "exhibit.web.apk.verify",
+    "exhibit.web.android.install",
+    "exhibit.web.android.launch",
+    "exhibit.web.android.logs",
+    "exhibit.web.android.cdp",
+    "exhibit.web.experience.inspect"
+  ],
+  "dependencies": {
+    "skills": [
+      {
+        "id": "com.himind.skill.exhibit-web-development",
+        "required": true,
+        "min_version": "0.4.2"
+      },
+      {
+        "id": "com.himind.skill.exhibit-experience-direction",
+        "required": true,
+        "min_version": "0.1.0"
+      }
+    ],
+    "plugins": [
+      {
+        "id": "com.himind.exhibit-development-tools",
+        "required": true,
+        "min_version": "0.5.2"
+      }
+    ],
+    "connectors": [],
+    "runtimes": [
+      "codex",
+      "himind.builtin"
+    ]
+  },
+  "candidate": {
+    "required": true,
+    "artifact_id": "candidate",
+    "source": "git",
+    "allow_dirty": true
+  },
+  "steps": [
+    {
+      "id": "EXW-SCRIPT-PARSE",
+      "title": "本地解析脚本结构",
+      "kind": "capability",
+      "capability_id": "exhibit.script.parse",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "input": {
+        "script_path": "input.script_path"
+      }
+    },
+    {
+      "id": "EXW-INTRO-DRAFT",
+      "title": "生成 Markdown 展项介绍",
+      "kind": "runtime",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "depends_on": [
+        "EXW-SCRIPT-PARSE"
+      ],
+      "runtime": {
+        "provider": "auto",
+        "prompt": "使用 $exhibit-web-development 读取 workflow_context 中的脚本解析结果，生成面向业务人员的 Markdown 展项介绍。保留业务介绍、硬件、体验流程、目标分辨率、媒体、Provider 需求和待确认项；不得写入本机绝对路径。输出严格符合 result_schema。",
+        "result_schema": "artifacts/exhibit-intro.schema.json",
+        "tool_policy": "default",
+        "allow_network": true,
+        "timeout_seconds": 900
+      }
+    },
+    {
+      "id": "EXW-INTRO-PUBLISH",
+      "title": "同步展项介绍",
+      "kind": "runtime",
+      "execution_mode": "sync",
+      "risk_level": "network_write",
+      "approval_required": true,
+      "depends_on": [
+        "EXW-INTRO-DRAFT"
+      ],
+      "runtime": {
+        "provider": "auto",
+        "prompt": "使用 $exhibit-web-development 和 Workbench Provider，把 EXW-INTRO-DRAFT 的 Markdown 介绍更新到展项 input.exhibit_id。不得上传原始脚本或本机绝对路径。返回更新结果。",
+        "tool_policy": "default",
+        "allow_network": true,
+        "timeout_seconds": 600
+      }
+    },
+    {
+      "id": "EXW-SPEC-DRAFT",
+      "title": "生成开发规格草案",
+      "kind": "runtime",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "depends_on": [
+        "EXW-INTRO-PUBLISH"
+      ],
+      "runtime": {
+        "provider": "auto",
+        "prompt": "使用 $exhibit-web-development 生成 exhibit-development-spec.v1。每个需求必须包含 requirement_id、可验证描述、source_ref、acceptance 和 evidence；H5、外部媒体、Provider、Mock/真机和目标分辨率写入 metadata。无法确认的内容进入 unknowns。输出严格符合 result_schema。",
+        "result_schema": "artifacts/exhibit-spec.schema.json",
+        "tool_policy": "default",
+        "allow_network": true,
+        "timeout_seconds": 900
+      }
+    },
+    {
+      "id": "EXW-SPEC-VALIDATE",
+      "title": "校验开发规格",
+      "kind": "capability",
+      "capability_id": "exhibit.script.spec.validate",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "depends_on": [
+        "EXW-SPEC-DRAFT"
+      ]
+    },
+    {
+      "id": "EXW-SPEC-PUBLISH",
+      "title": "发布已确认规格",
+      "kind": "runtime",
+      "execution_mode": "sync",
+      "risk_level": "network_write",
+      "approval_required": true,
+      "depends_on": [
+        "EXW-SPEC-VALIDATE"
+      ],
+      "runtime": {
+        "provider": "auto",
+        "prompt": "使用 $exhibit-web-development 和 Workbench Provider，把校验通过的规格发布到展项 input.exhibit_id，返回 revision 并回读确认。不得发布仍含阻塞项的规格。",
+        "tool_policy": "default",
+        "allow_network": true,
+        "timeout_seconds": 600
+      }
+    },
+    {
+      "id": "EXW-PROJECT-INSPECT",
+      "title": "检查 H5 展项工程",
+      "kind": "capability",
+      "capability_id": "exhibit.web.project.inspect",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "depends_on": [
+        "EXW-SPEC-PUBLISH"
+      ],
+      "input": {
+        "project_root": "input.workspace_root"
+      }
+    },
+    {
+      "id": "EXW-DEVELOP",
+      "title": "实现 H5 展项",
+      "kind": "runtime",
+      "execution_mode": "long_running",
+      "risk_level": "local_write",
+      "depends_on": [
+        "EXW-PROJECT-INSPECT"
+      ],
+      "runtime": {
+        "provider": "auto",
+        "prompt": "使用 $exhibit-web-development，在 input.workspace_root 中完成一个有界 H5 展项任务。优先调用 exhibit.web.template.* 选择或创建版本化模板；开发阶段用 exhibit.web.dev.start 启动 shell=true、mock=true 的 AI 调试会话；需要真实节点数据时改传 provider=true 并确认 config/private 中已有有效节点密钥，页面和日志不得输出密钥，读取 sessionFile，并用 Playwright connectOverCDP 检查页面、console 和截图。目标包含 Android 时，用 exhibit.web.build 构建 Debug APK，调用 exhibit.web.apk.verify，再按输入授权使用 android.install、android.launch、android.logs 与 android.cdp；Android WebView 的 Playwright CDP 不兼容时直接连接 page WebSocket。先使用 $exhibit-experience-direction 统一功能文案、状态、转场和动态职责；在结束实现前调用 exhibit.web.experience.inspect，返回 ok=false 时必须修复后重跑。最终 Release APK 必须移除 android_webview_debug 后重建。Mock 与真实硬件证据必须分开，不得把展项接入软件分发。返回 DevelopmentCheckpoint，严格符合 result_schema。",
+        "workspace_path": "input.workspace_root",
+        "result_schema": "artifacts/development-checkpoint.schema.json",
+        "tool_policy": "default",
+        "allow_network": true,
+        "timeout_seconds": 7200
+      }
+    },
+    {
+      "id": "EXW-EXPERIENCE-INSPECT",
+      "title": "检查展项体验门禁",
+      "kind": "capability",
+      "capability_id": "exhibit.web.experience.inspect",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "depends_on": [
+        "EXW-DEVELOP"
+      ],
+      "input": {
+        "project_root": "input.workspace_root"
+      }
+    },
+    {
+      "id": "EXW-BUILD",
+      "title": "构建多目标产物",
+      "kind": "capability",
+      "capability_id": "exhibit.web.build",
+      "execution_mode": "long_running",
+      "risk_level": "process",
+      "depends_on": [
+        "EXW-EXPERIENCE-INSPECT"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "cli_path": "input.cli_path",
+        "target": "input.target",
+        "output_dir": "input.build_output_dir",
+        "core_path": "input.core_path",
+        "launcher_path": "input.launcher_path",
+        "iodevice_root": "input.iodevice_root",
+        "android_webview_debug": "input.android_webview_debug",
+        "bridge_transport": "input.bridge_transport",
+        "bridge_endpoint": "input.bridge_endpoint"
+      }
+    },
+    {
+      "id": "EXW-DIST-VERIFY",
+      "title": "验证独立 dist",
+      "kind": "capability",
+      "capability_id": "exhibit.web.dist.verify",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "depends_on": [
+        "EXW-BUILD"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "cli_path": "input.cli_path",
+        "output_dir": "input.dist_dir"
+      }
+    },
+    {
+      "id": "EXW-PACKAGE",
+      "title": "冻结内容包",
+      "kind": "capability",
+      "capability_id": "exhibit.web.package",
+      "execution_mode": "long_running",
+      "risk_level": "local_write",
+      "depends_on": [
+        "EXW-BUILD"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "cli_path": "input.cli_path",
+        "output_dir": "input.package_output_dir",
+        "force": true
+      }
+    },
+    {
+      "id": "EXW-CANDIDATE",
+      "title": "冻结工作区候选",
+      "kind": "capability",
+      "capability_id": "workflow.candidate.freeze",
+      "candidate_action": "freeze",
+      "execution_mode": "sync",
+      "risk_level": "local_write",
+      "depends_on": [
+        "EXW-PACKAGE"
+      ]
+    },
+    {
+      "id": "EXW-SMOKE",
+      "title": "运行内容冒烟",
+      "kind": "capability",
+      "capability_id": "exhibit.runtime.smoke",
+      "candidate_action": "require",
+      "execution_mode": "long_running",
+      "risk_level": "process",
+      "depends_on": [
+        "EXW-CANDIDATE"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "bridge_path": "input.bridge_path",
+        "smoke_script_path": "input.smoke_script_path",
+        "port": 19198,
+        "mock": true
+      }
+    },
+    {
+      "id": "EXW-EVIDENCE-PACK",
+      "title": "生成开发证据清单",
+      "kind": "capability",
+      "capability_id": "exhibit.evidence.pack",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "depends_on": [
+        "EXW-SMOKE"
+      ],
+      "when": {
+        "operator": "not_equals",
+        "path": "input.evidence_items",
+        "value": []
+      },
+      "input": {
+        "workspace_root": "input.workspace_root",
+        "items": "input.evidence_items"
+      }
+    },
+    {
+      "id": "EXW-EVIDENCE-UPLOAD",
+      "title": "同步开发证据",
+      "kind": "runtime",
+      "execution_mode": "sync",
+      "risk_level": "network_write",
+      "approval_required": true,
+      "depends_on": [
+        "EXW-EVIDENCE-PACK"
+      ],
+      "when": {
+        "operator": "not_equals",
+        "path": "input.evidence_items",
+        "value": []
+      },
+      "runtime": {
+        "provider": "auto",
+        "prompt": "使用 $exhibit-web-development 和 Workbench Provider，读取 EXW-EVIDENCE-PACK 清单，逐项上传并回读。Artifact metadata 必须包含 candidate SHA-256、checkpoint_id、spec_revision、requirement_ids 和 provider_mode。不得上传原始脚本或本机绝对路径。",
+        "result_schema": "artifacts/evidence-manifest.schema.json",
+        "tool_policy": "default",
+        "allow_network": true,
+        "timeout_seconds": 1800
+      }
+    },
+    {
+      "id": "EXW-REVIEW",
+      "title": "人工验收多端展项",
+      "kind": "manual",
+      "execution_mode": "sync",
+      "risk_level": "R2",
+      "approval_required": true,
+      "depends_on": [
+        "EXW-SMOKE",
+        "EXW-EVIDENCE-UPLOAD",
+        "EXW-DIST-VERIFY",
+        "EXW-EXPERIENCE-INSPECT"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "exhibit-intro",
+      "artifact_type": "exhibit_intro",
+      "name": "展项 Markdown 介绍",
+      "schema": "artifacts/exhibit-intro.schema.json",
+      "required": false,
+      "validation": "strict",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "exhibit-spec",
+      "artifact_type": "exhibit_development_spec",
+      "name": "展项开发规格",
+      "schema": "artifacts/exhibit-spec.schema.json",
+      "required": true,
+      "validation": "strict",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "candidate",
+      "artifact_type": "candidate",
+      "name": "H5 展项不可变候选",
+      "schema": "artifacts/candidate.schema.json",
+      "required": true,
+      "validation": "strict",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "development-checkpoint",
+      "artifact_type": "development_checkpoint",
+      "name": "开发检查点",
+      "schema": "artifacts/development-checkpoint.schema.json",
+      "required": true,
+      "validation": "strict",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "evidence-manifest",
+      "artifact_type": "exhibit_evidence_manifest",
+      "name": "开发证据清单",
+      "schema": "artifacts/evidence-manifest.schema.json",
+      "required": false,
+      "validation": "strict",
+      "max_bytes": 1048576
+    }
+  ],
+  "ui": {
+    "mode": "declarative",
+    "surfaces": [
+      "agent",
+      "dashboard"
+    ],
+    "entry": "ui/workflow-view.json"
+  },
+  "supported_runtimes": [
+    "codex",
+    "himind.builtin"
+  ],
+  "created_at": "2026-10-28T00:00:00Z"
+}

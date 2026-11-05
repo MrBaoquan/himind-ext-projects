@@ -1,0 +1,33 @@
+{
+  "id": "com.himind.skill.exhibit-experience-direction",
+  "name": "展项体验方向",
+  "author": "马宝全",
+  "categories": [
+    "visual-design",
+    "content-production",
+    "testing-quality"
+  ],
+  "version": "0.1.0",
+  "distribution_targets": [
+    "workbench",
+    "github"
+  ],
+  "scope": "organization",
+  "description": "为 H5 展项制定去 AI 味的文案、转场、持续动态、性能预算和人工验收规则。",
+  "min_agent_version": "0.3.90",
+  "supported_clients": [
+    "agent-skills"
+  ],
+  "capabilities": [],
+  "plugin_dependencies": [],
+  "risk_summary": "可能修改工作区内页面的文案、样式与动效代码；不引入任意 Shell、外部脚本、凭据或网络服务。",
+  "contents": [
+    "SKILL.md",
+    "agents/openai.yaml",
+    "skill.json",
+    "references/copy-system.md",
+    "references/motion-and-live-scenes.md",
+    "references/experience-acceptance.md"
+  ],
+  "release_notes": "0.1.0：建立功能文案、主题文案、稳定转场、意义动态、性能与验收规则。"
+}

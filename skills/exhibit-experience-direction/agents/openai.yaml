@@ -1,0 +1,4 @@
+interface:
+  display_name: "展项体验方向"
+  short_description: "为互动展项制定去 AI 味的文案、转场、动态与验收规则"
+  default_prompt: "使用 $exhibit-experience-direction 审阅当前展项，先明确功能文案与主题文案的层级，再设计不依赖 transitionend 的转场、有信息价值的动态元素、reduced-motion 与性能验收。"

@@ -1,0 +1,59 @@
+{
+  "schema_version": "workflow_view.v1",
+  "title": "展项开发",
+  "sections": [
+    {
+      "id": "target",
+      "title": "展项与本地脚本",
+      "fields": [
+        {
+          "id": "exhibit_id",
+          "label": "展项 PID",
+          "type": "text",
+          "required": true,
+          "hint": "使用工作台展项列表返回的稳定 pid，不是 EX-xxxx 展示编号。"
+        },
+        {
+          "id": "script_path",
+          "label": "脚本文件",
+          "type": "text",
+          "required": true,
+          "picker": "",
+          "hint": "本地解析，不上传工作台；支持 .docx、.txt、.md、.json，旧版 .doc 先转换。"
+        },
+        {
+          "id": "workspace_root",
+          "label": "展项工程目录",
+          "type": "text",
+          "required": true,
+          "picker": "directory",
+          "hint": "当前展项的 Unity 工作区或本地绑定目录。"
+        },
+        {
+          "id": "agent_id",
+          "label": "Agent ID",
+          "type": "text",
+          "hint": "留空由 Agent 上下文补全。"
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "title": "开发证据",
+      "fields": [
+        {
+          "id": "evidence_items",
+          "label": "开发证据列表",
+          "type": "json",
+          "required": false,
+          "default": [],
+          "hint": "JSON 数组；每项包含 path、artifact_kind，可选 requirement_ids 和 metadata。可同时填写截图、视频、测试报告和构建包。"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    "script_sync",
+    "development"
+  ]
+}

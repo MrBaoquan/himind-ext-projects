@@ -4,11 +4,54 @@
   "distribution_id": "mrbaoquan/himind-ext-projects",
   "channel": "stable",
   "catalog_id": "public",
-  "default_distribution_targets": ["workbench", "github"],
+  "default_distribution_targets": [
+    "workbench",
+    "github"
+  ],
   "default_branch": "main",
-  "dependency_catalogs": ["../himind-extensions/.himind/catalog.json"],
+  "dependency_catalogs": [
+    "../himind-extensions/.himind/catalog.json"
+  ],
   "extensions": [
-    {"type": "workflow", "id": "com.himind.workflow.wechat-experience-upload", "path": "workflows/wechat-experience-upload"},
-    {"type": "skill", "id": "com.himind.skill.upm-package-development", "path": "skills/upm-package-development"}
+    {
+      "type": "workflow",
+      "id": "com.himind.workflow.wx-venue-upload",
+      "path": "workflows/wx-venue-upload"
+    },
+    {
+      "type": "skill",
+      "id": "com.himind.skill.upm-package-development",
+      "path": "skills/upm-package-development"
+    },
+    {
+      "type": "plugin",
+      "id": "com.himind.exhibit-development-tools",
+      "path": "plugins/exhibit-development-tools"
+    },
+    {
+      "type": "skill",
+      "id": "com.himind.skill.exhibit-development",
+      "path": "skills/exhibit-development"
+    },
+    {
+      "type": "workflow",
+      "id": "com.himind.workflow.exhibit-development",
+      "path": "workflows/exhibit-development"
+    },
+    {
+      "type": "skill",
+      "id": "com.himind.skill.exhibit-web-development",
+      "path": "skills/exhibit-web-development"
+    },
+    {
+      "type": "workflow",
+      "id": "com.himind.workflow.exhibit-web-development",
+      "path": "workflows/exhibit-web-development"
+    },
+    {
+      "type": "skill",
+      "id": "com.himind.skill.exhibit-experience-direction",
+      "path": "skills/exhibit-experience-direction"
+    }
   ]
 }

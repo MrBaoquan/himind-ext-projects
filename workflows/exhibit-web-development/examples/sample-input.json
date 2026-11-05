@@ -1,0 +1,19 @@
+{
+  "exhibit_id": "replace-with-exhibit-pid",
+  "script_path": "F:\\temp\\exhibit-script.docx",
+  "workspace_root": "F:\\Exhibits\\SpaceButton",
+  "cli_path": "F:\\Tools\\myriad.exe",
+  "bridge_path": "F:\\Tools\\IOToolkit.WebBridge.exe",
+  "smoke_script_path": "F:\\Tools\\smoke_webbridge.ps1",
+  "package_output_dir": "F:\\Exhibits\\SpaceButton\\artifacts",
+  "evidence_items": [
+    {
+      "path": "artifacts/evidence/console.log",
+      "artifact_kind": "other",
+      "requirement_ids": [],
+      "metadata": {
+        "provider_mode": "mock"
+      }
+    }
+  ]
+}

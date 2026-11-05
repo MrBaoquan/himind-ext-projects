@@ -1,0 +1,718 @@
+{
+  "id": "com.himind.exhibit-development-tools",
+  "name": "展项开发工具",
+  "author": "马宝全",
+  "categories": [
+    "software-engineering",
+    "content-production"
+  ],
+  "description": "解析展项脚本、创建 MyriadBox 模板、启动 AI/CDP 调试、检查体验规则、构建多目标产物并生成证据。",
+  "release_notes": "0.6.0：exhibit.project.inspect 增加 mcp 段，读取 MCP for Unity 心跳文件，返回就绪状态、Bridge 端口、工程 pin 版本、引擎版本一致性，并在多实例时提示显式选择目标 Unity。",
+  "version": "0.6.0",
+  "entry": "bin/exhibit-development-tools.exe",
+  "runtime": "process-jsonrpc-stdio",
+  "platforms": [
+    "windows-x64"
+  ],
+  "min_agent_version": "0.3.85",
+  "governance": "optional",
+  "distribution_targets": [
+    "workbench",
+    "github"
+  ],
+  "capability_namespace": "exhibit",
+  "capabilities": [
+    {
+      "id": "exhibit.script.parse",
+      "description": "解析展项脚本文件并输出结构化段落、表格和资产引用；旧版 .doc 返回明确转换阻塞。",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "script_path": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "script_path"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.script.spec.validate",
+      "description": "校验展项开发规格的必填结构和需求数组。",
+      "availability": "local",
+      "timeout_seconds": 30,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "content_json": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "spec_path": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.project.inspect",
+      "description": "识别 Unity 版本、UNIHper 配置与 MCP 就绪状态。",
+      "availability": "local",
+      "timeout_seconds": 60,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "project_root"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.evidence.pack",
+      "description": "校验截图、视频、测试报告并生成带 SHA-256 的开发证据清单。",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "workspace_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 200,
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "maxLength": 2000
+                },
+                "artifact_kind": {
+                  "type": "string",
+                  "enum": [
+                    "development-screenshot",
+                    "demo-video",
+                    "test-report",
+                    "build-package",
+                    "delivery-evidence",
+                    "other"
+                  ]
+                },
+                "requirement_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "metadata": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              },
+              "required": [
+                "path",
+                "artifact_kind"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "workspace_root",
+          "items"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.project.inspect",
+      "description": "检查 H5 展项 manifest、构建配置、运行配置、媒体目录、Provider 与前端框架。",
+      "availability": "local",
+      "timeout_seconds": 60,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "project_root"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.experience.inspect",
+      "description": "检查文案、按钮、错误状态、动画事件、转场时长、reduced-motion 与动态信号。",
+      "availability": "local",
+      "timeout_seconds": 60,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "project_root"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.build",
+      "description": "构建 Web、Windows 和 Android 目标",
+      "availability": "local",
+      "timeout_seconds": 1800,
+      "risk_level": "local_write",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "cli_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "target": {
+            "type": "string",
+            "enum": [
+              "win-x64",
+              "android-arm64",
+              "web",
+              "all"
+            ]
+          },
+          "core_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "launcher_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "iodevice_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "bridge_transport": {
+            "enum": [
+              "mock",
+              "http"
+            ],
+            "type": "string"
+          },
+          "bridge_endpoint": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "android_webview_debug": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project_root",
+          "cli_path"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.package",
+      "description": "调用MyriadBox CLI 冻结可部署内容包并返回 SHA-256。",
+      "availability": "local",
+      "timeout_seconds": 1800,
+      "risk_level": "local_write",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "cli_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "output_dir": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "force": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project_root",
+          "cli_path"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.runtime.smoke",
+      "description": "启动 WebBridge 冒烟测试并验证 HTTP、WebSocket、通道写入与安全停止。",
+      "availability": "local",
+      "timeout_seconds": 180,
+      "risk_level": "local_write",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "bridge_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "smoke_script_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "port": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535
+          },
+          "mock": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project_root",
+          "bridge_path",
+          "smoke_script_path"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.template.list",
+      "description": "列出 MyriadBox 开始模板、版本、框架和兼容性契约。",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "cli_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "workspace_root": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "cli_path"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.template.inspect",
+      "description": "读取指定 MyriadBox 开始模板的版本、能力与生成契约。",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "cli_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "workspace_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "template_id": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "cli_path",
+          "template_id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.template.create",
+      "description": "从版本化 MyriadBox 模板创建展项工程，并返回机器可读结果。",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "local_write",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "workspace_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "cli_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "output_dir": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "template_id": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "project_name": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "cli_path",
+          "project_name",
+          "template_id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.dev.start",
+      "description": "启动浏览器或 Shell 调试会话，可挂载 Mock 或真实 Provider。",
+      "availability": "local",
+      "timeout_seconds": 180,
+      "risk_level": "process",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "cli_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "shell": {
+            "type": "boolean"
+          },
+          "mock": {
+            "type": "boolean"
+          },
+          "no_provider": {
+            "type": "boolean"
+          },
+          "port": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "cdp_port": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "provider": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "cli_path",
+          "project_root"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.dev.status",
+      "description": "读取 MyriadBox 开发会话及进程存活状态。",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "cli_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "cli_path",
+          "project_root"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.dev.stop",
+      "description": "停止 MyriadBox 开发会话及其 Provider 子进程。",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "local_write",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "cli_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "cli_path",
+          "project_root"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.dist.verify",
+      "description": "验证独立 dist 是否包含固定 Core、启动器、内容和 manifest，并拒绝分发元数据。",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "cli_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "output_dir": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "cli_path",
+          "project_root"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.logs.read",
+      "description": "读取展项最近日志，供 AI 定位启动、Provider 和浏览器错误。",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "tail_lines": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2000
+          }
+        },
+        "required": [
+          "project_root"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.apk.verify",
+      "description": "校验 APK 载荷、包信息与签名",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "apk_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "output_dir": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "aapt_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "apk_signer_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "package_id": {
+            "type": "string",
+            "maxLength": 256
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.android.install",
+      "description": "通过 adb 将构建出的 Android arm64 APK 安装到指定设备。",
+      "availability": "local",
+      "timeout_seconds": 300,
+      "risk_level": "process",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "adb_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "device_serial": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "apk_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "output_dir": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": [
+          "apk_path"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.android.launch",
+      "description": "通过 adb 启动已安装的 MyriadBox Android 宿主。",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "process",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "adb_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "device_serial": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "package_id": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "activity": {
+            "type": "string",
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "package_id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.android.logs",
+      "description": "读取指定 Android 设备的最近 logcat 输出，用于启动和崩溃诊断。",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "read_only",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "adb_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "device_serial": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "tail_lines": {
+            "maximum": 5000,
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "exhibit.web.android.cdp",
+      "description": "转发 Android WebView 调试端口",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "risk_level": "process",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "adb_path": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "device_serial": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "package_id": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "process_id": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "port": {
+            "maximum": 65535,
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  ]
+}

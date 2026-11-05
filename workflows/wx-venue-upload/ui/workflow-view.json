@@ -1,6 +1,6 @@
 {
   "schema_version": "workflow_view.v1",
-  "title": "微信小程序体验版上传",
+  "title": "展馆预约小程序上传",
   "sections": [
     {
       "id": "target",

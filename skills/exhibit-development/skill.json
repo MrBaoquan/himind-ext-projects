@@ -1,0 +1,40 @@
+{
+  "id": "com.himind.skill.exhibit-development",
+  "name": "展项开发助手",
+  "author": "马宝全",
+  "categories": [
+    "software-engineering",
+    "content-production"
+  ],
+  "version": "0.2.0",
+  "distribution_targets": [
+    "workbench",
+    "github"
+  ],
+  "scope": "organization",
+  "description": "把展项脚本转换成可追踪开发规格，并在 UNIHPer Unity 工程中按证据驱动完成实现、验证与工作台同步。",
+  "min_agent_version": "0.3.85",
+  "supported_clients": [
+    "codex",
+    "github-copilot",
+    "workbuddy"
+  ],
+  "capabilities": [],
+  "plugin_dependencies": [
+    {
+      "plugin_id": "com.himind.exhibit-development-tools",
+      "required": true,
+      "min_version": "0.1.0"
+    }
+  ],
+  "risk_summary": "可能按用户要求修改展项 Unity 工程中的 C#、场景、Prefab、JSON、UXML、USS、asmdef 与资源文件，并上传截图、视频和测试证据；禁止访问工作区外路径、读取凭据、提交、推送、发布或外传。",
+  "contents": [
+    "SKILL.md",
+    "agents/openai.yaml",
+    "skill.json",
+    "references/script-to-spec.md",
+    "references/development-loop.md",
+    "references/evidence-and-acceptance.md"
+  ],
+  "release_notes": "0.2.0：MCP 就绪门禁前置为开工第 0 步，补充能力发现流程、证据清单与检查点字段契约、人工补充来源与规格修订规则。"
+}
