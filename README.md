@@ -16,6 +16,7 @@
 | 展项 Web 开发助手 | skill | `com.himind.skill.exhibit-web-development` | MyriadBox H5、Provider、体验门禁、Candidate 与证据规则 |
 | 展项体验方向 | skill | `com.himind.skill.exhibit-experience-direction` | H5 展项去 AI 味文案、稳定转场、持续动态、性能与体验验收 |
 | 展项 Web 开发 | workflow | `com.himind.workflow.exhibit-web-development` | H5 实现、体验门禁、多目标构建、WebBridge 冒烟与证据回读 |
+| krpano 全景项目助手 | skill | `com.himind.skill.krpano-tour-assistant` | pano CLI 建项目、切片同步、热点编辑、本地预览与打包发布 |
 
 ## 在 Agent 里安装
 

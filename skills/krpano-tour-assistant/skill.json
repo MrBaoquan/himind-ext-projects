@@ -1,0 +1,34 @@
+{
+  "id": "com.himind.skill.krpano-tour-assistant",
+  "icon": "assets/icon.png",
+  "name": "krpano 全景项目助手",
+  "author": "马宝全",
+  "categories": [
+    "content-production",
+    "software-engineering"
+  ],
+  "version": "0.1.0",
+  "scope": "organization",
+  "distribution_targets": [
+    "workbench",
+    "github"
+  ],
+  "description": "用 pano CLI 创建和维护 krpano 全景漫游项目，覆盖全景图分组、切片、热点编辑、本地预览与打包发布；当用户提到 pano、krpano、全景漫游或 vtour 工程时使用。",
+  "release_notes": "0.1.0：首个版本，覆盖 pano CLI 环境检查、项目创建、切片同步、热点编辑、预览与发布流程。",
+  "min_agent_version": "0.3.47",
+  "supported_clients": [
+    "agent-skills"
+  ],
+  "capabilities": [],
+  "plugin_dependencies": [],
+  "risk_summary": "只读检查默认安全；clean、publish、upgrade、sync --force 与 init 重建会删除或覆盖工程文件，执行前需用户确认；不负责上传部署，不复制或分发 krpano 授权文件。",
+  "contents": [
+    "skill.json",
+    "SKILL.md",
+    "agents/openai.yaml",
+    "references/commands.md",
+    "references/project-config.md",
+    "references/troubleshooting.md",
+    "assets/icon.png"
+  ]
+}

@@ -52,6 +52,11 @@
       "type": "skill",
       "id": "com.himind.skill.exhibit-experience-direction",
       "path": "skills/exhibit-experience-direction"
+    },
+    {
+      "type": "skill",
+      "id": "com.himind.skill.krpano-tour-assistant",
+      "path": "skills/krpano-tour-assistant"
     }
   ]
 }
