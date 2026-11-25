@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AndX Custom Page Deployment Receipt",
+  "type": "object",
+  "required": [
+    "schema",
+    "ok",
+    "action",
+    "deployment"
+  ],
+  "properties": {
+    "schema": {
+      "enum": [
+        "andx-custom-page-deployment/v1",
+        "andx\u002epage.delivery.v2"
+      ]
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "action": {
+      "type": "string"
+    },
+    "profile": {
+      "type": "string"
+    },
+    "profile_env": {
+      "type": "string"
+    },
+    "idempotent": {
+      "type": "boolean"
+    },
+    "project_root": {
+      "type": "string"
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "deployment": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "health": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "activation": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "completedAt": {
+      "type": "string"
+    },
+    "credential_ref": {
+      "type": "string"
+    },
+    "expected_activation_id": {
+      "type": "string"
+    },
+    "preview": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

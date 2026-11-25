@@ -1,0 +1,4 @@
+interface:
+  display_name: "AndX 定制页开发助手"
+  short_description: "开发、测试并部署 AndX Interaction Bridge 定制页"
+  default_prompt: "使用 $andx-custom-page-development 选择 MyriadBox Web 或已有静态产物作为 source_root，先校验 Bridge 契约和静态包，再运行真实 SDK 测试；预览部署只使用外部 Profile 名称，生产激活必须人工批准。"

@@ -18,6 +18,11 @@
 | 展项 Web 开发 | workflow | `com.himind.workflow.exhibit-web-development` | H5 实现、体验门禁、多目标构建、WebBridge 冒烟与证据回读 |
 | krpano 全景项目助手 | skill | `com.himind.skill.krpano-tour-assistant` | pano CLI 建项目、切片同步、热点编辑、本地预览与打包发布 |
 
+| AndX 定制页工具 | plugin | `com.himind.andx-custom-page-tools` | 静态 H5 校验、AndX 打包、真实 Bridge 测试与安全 Profile 预览部署 |
+| AndX 定制页开发助手 | skill | `com.himind.skill.andx-custom-page-development` | 复用 MyriadBox Web 或任意静态产物开发、测试和交付 Interaction Bridge 定制页 |
+| AndX 定制页交付 | workflow | `com.himind.workflow.andx-custom-page-delivery` | 规格、开发、Bridge 测试、候选包、预览、审批、激活、二维码与证据验收 |
+| AndX 跨平台接入助手 | skill | `com.himind.skill.andx-platform-integration` | 识别 Unity/UNIHper、H5/MyriadBox 接入路径，路由定制页，并按契约、构建和实测证据验收；UE/WebGL/Hub 按能力检查缺口 |
+
 ## 在 Agent 里安装
 
 1. 打开「能力 → 来源管理」，添加 GitHub 来源 `MrBaoquan/himind-ext-projects`；

@@ -1,0 +1,4 @@
+interface:
+  display_name: "AndX 跨平台接入助手"
+  short_description: "识别 Unity、H5 与 MyriadBox 接入路径，按契约、构建及实测证据验收"
+  default_prompt: "使用 $andx-platform-integration 检查当前工程与所需 AndX 能力，选择现有接入路径，完成最小适配并列出各平台验证结果与待验项。"

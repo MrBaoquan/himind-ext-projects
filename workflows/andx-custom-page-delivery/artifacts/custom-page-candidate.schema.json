@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AndX Custom Page Candidate",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "ok",
+    "output_zip",
+    "sha256",
+    "artifact_bytes",
+    "page_key",
+    "version",
+    "source_kind"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "andx-custom-page-candidate.v1"
+    },
+    "artifact_zip": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "bytes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "page_key": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "source_kind": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ok": {
+      "const": true
+    },
+    "output_zip": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_bytes": {
+      "type": "integer",
+      "minimum": 1
+    }
+  }
+}

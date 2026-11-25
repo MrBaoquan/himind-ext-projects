@@ -1,0 +1,141 @@
+{
+  "id": "com.himind.skill.andx-custom-page-development",
+  "name": "AndX 定制页开发助手",
+  "author": "马宝全",
+  "categories": [
+    "software-engineering",
+    "testing-quality"
+  ],
+  "version": "0.2.0",
+  "scope": "organization",
+  "description": "使用任意静态 H5 或 MyriadBox Web 产物开发和交付 AndX 定制页。",
+  "release_notes": "支持开发者凭证安全导入、独立工程绑定、无设备交付与修订保护。",
+  "min_agent_version": "0.3.94",
+  "supported_clients": [
+    "agent-skills"
+  ],
+  "capabilities": [
+    {
+      "id": "andx.page.project.inspect",
+      "required": false,
+      "min_version": "0.1.0",
+      "provider": "com.himind.andx-custom-page-tools"
+    },
+    {
+      "id": "andx.page.contract.validate",
+      "required": false,
+      "min_version": "0.1.0",
+      "provider": "com.himind.andx-custom-page-tools"
+    },
+    {
+      "id": "andx.page.test.run",
+      "required": false,
+      "min_version": "0.1.0",
+      "provider": "com.himind.andx-custom-page-tools"
+    },
+    {
+      "id": "andx.page.package",
+      "required": false,
+      "min_version": "0.1.0",
+      "provider": "com.himind.andx-custom-page-tools"
+    },
+    {
+      "id": "andx.page.deploy.preview",
+      "required": false,
+      "min_version": "0.1.0",
+      "provider": "com.himind.andx-custom-page-tools"
+    },
+    {
+      "id": "andx.page.deploy.activate",
+      "required": false,
+      "min_version": "0.1.0",
+      "provider": "com.himind.andx-custom-page-tools"
+    },
+    {
+      "id": "andx.page.qr.export",
+      "required": false,
+      "min_version": "0.1.0",
+      "provider": "com.himind.andx-custom-page-tools"
+    },
+    {
+      "id": "exhibit.web.build",
+      "required": false,
+      "min_version": "0.6.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "exhibit.web.experience.inspect",
+      "required": false,
+      "min_version": "0.6.0",
+      "provider": "com.himind.exhibit-development-tools"
+    },
+    {
+      "id": "andx.page.evidence.pack",
+      "required": false,
+      "min_version": "0.1.0",
+      "provider": "com.himind.andx-custom-page-tools"
+    },
+    {
+      "id": "andx.page.access.directory",
+      "required": false,
+      "provider": "com.himind.andx-custom-page-tools",
+      "min_version": "0.2.0"
+    },
+    {
+      "id": "andx.page.workspace.bind",
+      "required": false,
+      "provider": "com.himind.andx-custom-page-tools",
+      "min_version": "0.2.0"
+    },
+    {
+      "id": "andx.page.workspace.resolve",
+      "required": false,
+      "provider": "com.himind.andx-custom-page-tools",
+      "min_version": "0.2.0"
+    },
+    {
+      "id": "andx.page.exhibit.create",
+      "required": false,
+      "provider": "com.himind.andx-custom-page-tools",
+      "min_version": "0.2.0"
+    },
+    {
+      "id": "andx.page.device.enrollment",
+      "required": false,
+      "provider": "com.himind.andx-custom-page-tools",
+      "min_version": "0.2.0"
+    },
+    {
+      "id": "andx.page.receipt.save",
+      "required": false,
+      "min_version": "0.2.0",
+      "provider": "com.himind.andx-custom-page-tools"
+    }
+  ],
+  "plugin_dependencies": [
+    {
+      "plugin_id": "com.himind.andx-custom-page-tools",
+      "required": false,
+      "min_version": "0.2.0"
+    },
+    {
+      "plugin_id": "com.himind.exhibit-development-tools",
+      "required": false,
+      "min_version": "0.6.0"
+    }
+  ],
+  "risk_summary": "由本机安全导入个人开发凭证，按工程绑定上传候选与发布；不向模型、网页、设备或公共制品传递开发密钥。生产操作按任务明确授权与精确回执执行。",
+  "contents": [
+    "SKILL.md",
+    "agents/openai.yaml",
+    "skill.json",
+    "references/bridge-contract.md",
+    "references/build-provider.md",
+    "references/delivery-gates.md",
+    "references/troubleshooting.md"
+  ],
+  "distribution_targets": [
+    "workbench",
+    "github"
+  ]
+}

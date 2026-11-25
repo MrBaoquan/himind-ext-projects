@@ -1,0 +1,506 @@
+{
+  "schema_version": "workflow_package.v1",
+  "id": "com.himind.workflow.andx-custom-page-delivery",
+  "version": "0.2.0",
+  "distribution_targets": [
+    "workbench",
+    "github"
+  ],
+  "name": "AndX 定制页交付",
+  "description": "从静态 H5 或 MyriadBox Web 产物到 AndX 定制页测试、预览、人工审批、激活、二维码和证据验收。",
+  "release_notes": "使用工程绑定与步骤回执自动衔接候选、隔离预览、精确激活和固定二维码；无需配置部署 Profile。",
+  "min_agent_version": "0.3.94",
+  "execution_policy": "segmented",
+  "entrypoints": [
+    {
+      "id": "develop",
+      "at_step": "ACP-BINDING",
+      "label": "开发与交付定制页",
+      "requires": []
+    }
+  ],
+  "default_entrypoint": "develop",
+  "exits": [
+    {
+      "id": "preview_ready",
+      "at_step": "ACP-PREVIEW",
+      "label": "预览版本已上传",
+      "produces": [
+        "deployment-receipt"
+      ]
+    },
+    {
+      "id": "activated",
+      "at_step": "ACP-EVIDENCE-PACK",
+      "label": "定制页已激活并生成二维码",
+      "produces": [
+        "deployment-receipt",
+        "acceptance-evidence"
+      ]
+    },
+    {
+      "id": "delivered",
+      "at_step": "ACP-WECHAT-REVIEW",
+      "label": "微信双入口人工验收完成",
+      "produces": [
+        "custom-page-spec",
+        "bridge-test-report",
+        "custom-page-candidate",
+        "deployment-receipt",
+        "acceptance-evidence"
+      ]
+    }
+  ],
+  "default_exitpoint": "preview_ready",
+  "capabilities": [
+    "andx.page.workspace.resolve",
+    "exhibit.web.build",
+    "exhibit.web.experience.inspect",
+    "andx.page.project.inspect",
+    "andx.page.contract.validate",
+    "andx.page.test.run",
+    "andx.page.package",
+    "andx.page.deploy.preview",
+    "andx.page.deploy.activate",
+    "andx.page.qr.export",
+    "andx.page.evidence.pack",
+    "andx.page.receipt.save"
+  ],
+  "dependencies": {
+    "skills": [
+      {
+        "id": "com.himind.skill.andx-custom-page-development",
+        "required": true,
+        "min_version": "0.2.0"
+      }
+    ],
+    "plugins": [
+      {
+        "id": "com.himind.andx-custom-page-tools",
+        "required": true,
+        "min_version": "0.2.0"
+      },
+      {
+        "id": "com.himind.exhibit-development-tools",
+        "required": false,
+        "min_version": "0.6.0"
+      }
+    ],
+    "connectors": [],
+    "runtimes": [
+      "codex",
+      "himind.builtin"
+    ]
+  },
+  "steps": [
+    {
+      "id": "ACP-BINDING",
+      "title": "读取工程的 AndX 绑定",
+      "kind": "capability",
+      "capability_id": "andx.page.workspace.resolve",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "input": {
+        "project_root": "input.workspace_root"
+      }
+    },
+    {
+      "id": "ACP-SPEC",
+      "title": "固化定制页规格",
+      "kind": "runtime",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "runtime": {
+        "provider": "auto",
+        "prompt": "使用 $andx-custom-page-development。先读取 steps.ACP-BINDING 的明确 AndX 工程绑定，page_key 使用绑定的 page_key，不能从工作台 pid 推断 AndX 编号。已有凭证时无需重新导入或配置 Profile。固化版本、展示模式、构建来源、静态目录、Bridge 能力和 page_actions。MyriadBox 以真实构建回执的静态输出目录为准。输出严格符合 result_schema。",
+        "result_schema": "artifacts/custom-page-spec.schema.json",
+        "tool_policy": "default",
+        "timeout_seconds": 600
+      },
+      "depends_on": [
+        "ACP-BINDING"
+      ]
+    },
+    {
+      "id": "ACP-SPEC-RECEIPT",
+      "title": "登记结构化报告",
+      "kind": "capability",
+      "capability_id": "andx.page.receipt.save",
+      "execution_mode": "sync",
+      "risk_level": "local_write",
+      "depends_on": [
+        "ACP-SPEC"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "artifact_id": "custom-page-spec",
+        "data": "steps.ACP-SPEC.report"
+      }
+    },
+    {
+      "id": "ACP-DEVELOP",
+      "title": "实现定制页",
+      "kind": "runtime",
+      "execution_mode": "long_running",
+      "risk_level": "local_write",
+      "depends_on": [
+        "ACP-SPEC-RECEIPT"
+      ],
+      "runtime": {
+        "provider": "auto",
+        "prompt": "使用 $andx-custom-page-development，在 input.workspace_root 中有界实现或调整定制页，external 使用工程现有构建命令产出静态目录。MyriadBox 先修改工程，下一步统一通过 exhibit.web.build 构建；不可在构建后再修改未重建的源码。页面只使用 createCustomPageBridge，不直接访问 AndX API、Cookie、支付签名或 MyriadBox Provider。记录改动与行为验证。",
+        "workspace_path": "input.workspace_root",
+        "tool_policy": "default",
+        "allow_network": true,
+        "timeout_seconds": 7200
+      }
+    },
+    {
+      "id": "ACP-MYRIADBOX-BUILD",
+      "title": "构建 MyriadBox Web",
+      "kind": "capability",
+      "capability_id": "exhibit.web.build",
+      "execution_mode": "long_running",
+      "risk_level": "local_write",
+      "depends_on": [
+        "ACP-DEVELOP"
+      ],
+      "when": {
+        "operator": "equals",
+        "path": "input.build_provider",
+        "value": "myriadbox"
+      },
+      "input": {
+        "project_root": "input.myriadbox_project_root",
+        "cli_path": "input.myriad_cli_path",
+        "target": "web",
+        "output_dir": "input.myriadbox_output_dir"
+      },
+      "fail_when": {
+        "operator": "not_equals",
+        "path": "steps.ACP-MYRIADBOX-BUILD.ok",
+        "value": true
+      }
+    },
+    {
+      "id": "ACP-PROJECT-INSPECT",
+      "title": "检查静态产物",
+      "kind": "capability",
+      "capability_id": "andx.page.project.inspect",
+      "execution_mode": "sync",
+      "risk_level": "local_write",
+      "depends_on": [
+        "ACP-MYRIADBOX-BUILD"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "source_root": "input.source_root",
+        "build_receipt": "steps.ACP-MYRIADBOX-BUILD"
+      },
+      "fail_when": {
+        "operator": "not_equals",
+        "path": "steps.ACP-PROJECT-INSPECT.ok",
+        "value": true
+      }
+    },
+    {
+      "id": "ACP-EXPERIENCE",
+      "title": "检查展项体验",
+      "kind": "capability",
+      "capability_id": "exhibit.web.experience.inspect",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "depends_on": [
+        "ACP-PROJECT-INSPECT"
+      ],
+      "when": {
+        "operator": "equals",
+        "path": "input.build_provider",
+        "value": "myriadbox"
+      },
+      "input": {
+        "project_root": "input.myriadbox_project_root"
+      }
+    },
+    {
+      "id": "ACP-CONTRACT",
+      "title": "校验静态与 Bridge 契约",
+      "kind": "capability",
+      "capability_id": "andx.page.contract.validate",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "depends_on": [
+        "ACP-PROJECT-INSPECT",
+        "ACP-EXPERIENCE"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "source_root": "steps.ACP-PROJECT-INSPECT.source_root",
+        "page_key": "steps.ACP-BINDING.page_key",
+        "version": "input.version",
+        "display_mode": "input.display_mode",
+        "required_capabilities": "input.required_capabilities",
+        "optional_capabilities": "input.optional_capabilities",
+        "page_actions": "input.page_actions"
+      },
+      "fail_when": {
+        "operator": "not_equals",
+        "path": "steps.ACP-CONTRACT.ok",
+        "value": true
+      }
+    },
+    {
+      "id": "ACP-BRIDGE-TEST",
+      "title": "运行 Bridge 测试",
+      "kind": "capability",
+      "capability_id": "andx.page.test.run",
+      "execution_mode": "long_running",
+      "risk_level": "local_action",
+      "depends_on": [
+        "ACP-CONTRACT"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "sdk_root": "input.sdk_root",
+        "output_dir": "input.bridge_test_dir",
+        "chrome_path": "input.chrome_path",
+        "timeout_seconds": 120,
+        "page_root": "steps.ACP-PROJECT-INSPECT.source_root"
+      },
+      "fail_when": {
+        "operator": "not_equals",
+        "path": "steps.ACP-BRIDGE-TEST.ok",
+        "value": true
+      }
+    },
+    {
+      "id": "ACP-PACKAGE",
+      "title": "打包不可变候选",
+      "kind": "capability",
+      "capability_id": "andx.page.package",
+      "execution_mode": "sync",
+      "risk_level": "local_write",
+      "depends_on": [
+        "ACP-BRIDGE-TEST"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "source_root": "steps.ACP-PROJECT-INSPECT.source_root",
+        "output_zip": "input.artifact_zip",
+        "page_key": "steps.ACP-BINDING.page_key",
+        "version": "input.version",
+        "display_mode": "input.display_mode",
+        "required_capabilities": "input.required_capabilities",
+        "optional_capabilities": "input.optional_capabilities",
+        "force": false,
+        "page_actions": "input.page_actions"
+      }
+    },
+    {
+      "id": "ACP-PREVIEW",
+      "title": "上传预览并健康检查",
+      "kind": "capability",
+      "capability_id": "andx.page.deploy.preview",
+      "execution_mode": "long_running",
+      "risk_level": "R2",
+      "depends_on": [
+        "ACP-PACKAGE"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "artifact_zip": "steps.ACP-PACKAGE.output_zip",
+        "expected_sha256": "steps.ACP-PACKAGE.sha256",
+        "description": "input.description",
+        "binding_revision": "steps.ACP-BINDING.binding_revision",
+        "project_id": "steps.ACP-BINDING.project_id",
+        "exhibit_id": "steps.ACP-BINDING.exhibit_id",
+        "credential_ref": "steps.ACP-BINDING.credential_ref"
+      },
+      "fail_when": {
+        "operator": "not_equals",
+        "path": "steps.ACP-PREVIEW.ok",
+        "value": true
+      }
+    },
+    {
+      "id": "ACP-LIVE-VERIFY",
+      "title": "验证候选隔离预览",
+      "kind": "runtime",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "depends_on": [
+        "ACP-PREVIEW"
+      ],
+      "runtime": {
+        "provider": "auto",
+        "prompt": "读取 steps.ACP-PREVIEW。仅当 ok=true 时打开 preview.previewUrl，检查候选页截图、Console、Network、Bridge 会话/状态及 SHA。此时线上 /x/ 仍是旧版本，不得要求候选已在生产生效。预览停用支付、内容提交与现场动作，业务联调另行验收。输出严格符合 result_schema。 验收报告必须给出 ok 布尔值，只有截图存在、Console/Network 无错误且候选 SHA 匹配时为 true；不填写未执行的微信或人工确认。",
+        "result_schema": "artifacts/acceptance-evidence.schema.json",
+        "tool_policy": "default",
+        "allow_network": true,
+        "timeout_seconds": 1200
+      },
+      "fail_when": {
+        "operator": "not_equals",
+        "path": "steps.ACP-LIVE-VERIFY.report.ok",
+        "value": true
+      }
+    },
+    {
+      "id": "ACP-VERIFY-RECEIPT",
+      "title": "登记结构化报告",
+      "kind": "capability",
+      "capability_id": "andx.page.receipt.save",
+      "execution_mode": "sync",
+      "risk_level": "local_write",
+      "depends_on": [
+        "ACP-LIVE-VERIFY"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "artifact_id": "acceptance-evidence",
+        "data": "steps.ACP-LIVE-VERIFY.report"
+      }
+    },
+    {
+      "id": "ACP-ACTIVATE",
+      "title": "确认并激活精确生产版本",
+      "kind": "capability",
+      "capability_id": "andx.page.deploy.activate",
+      "execution_mode": "sync",
+      "risk_level": "network_write",
+      "approval_required": true,
+      "depends_on": [
+        "ACP-VERIFY-RECEIPT",
+        "ACP-PREVIEW",
+        "ACP-BINDING"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "deployment_id": "steps.ACP-PREVIEW.deployment.id",
+        "expected_activation_id": "steps.ACP-PREVIEW.expected_activation_id",
+        "expected_sha256": "steps.ACP-PREVIEW.artifact.sha256",
+        "reason": "input.release_reason",
+        "binding_revision": "steps.ACP-BINDING.binding_revision",
+        "project_id": "steps.ACP-BINDING.project_id",
+        "exhibit_id": "steps.ACP-BINDING.exhibit_id",
+        "credential_ref": "steps.ACP-BINDING.credential_ref"
+      }
+    },
+    {
+      "id": "ACP-QR",
+      "title": "生成互动二维码",
+      "kind": "capability",
+      "capability_id": "andx.page.qr.export",
+      "execution_mode": "sync",
+      "risk_level": "local_write",
+      "depends_on": [
+        "ACP-ACTIVATE"
+      ],
+      "input": {
+        "project_root": "input.workspace_root",
+        "output_png": "input.qr_output_png",
+        "binding_revision": "steps.ACP-BINDING.binding_revision",
+        "project_id": "steps.ACP-BINDING.project_id",
+        "exhibit_id": "steps.ACP-BINDING.exhibit_id",
+        "credential_ref": "steps.ACP-BINDING.credential_ref"
+      }
+    },
+    {
+      "id": "ACP-EVIDENCE-PACK",
+      "title": "生成验收证据包",
+      "kind": "capability",
+      "capability_id": "andx.page.evidence.pack",
+      "execution_mode": "sync",
+      "risk_level": "local_write",
+      "depends_on": [
+        "ACP-QR"
+      ],
+      "input": {
+        "workspace_root": "input.workspace_root",
+        "artifact_zip": "steps.ACP-PACKAGE.output_zip",
+        "qr_png": "steps.ACP-QR.output_png",
+        "items": "input.evidence_items"
+      }
+    },
+    {
+      "id": "ACP-WECHAT-REVIEW",
+      "title": "验收微信双入口",
+      "kind": "manual",
+      "execution_mode": "sync",
+      "risk_level": "read_only",
+      "approval_required": true,
+      "depends_on": [
+        "ACP-EVIDENCE-PACK"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "custom-page-spec",
+      "artifact_type": "custom_page_spec",
+      "name": "定制页规格",
+      "schema": "artifacts/custom-page-spec.schema.json",
+      "required": true,
+      "validation": "strict",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "bridge-test-report",
+      "artifact_type": "custom_page_bridge_test",
+      "name": "Bridge 测试报告",
+      "schema": "artifacts/bridge-test-report.schema.json",
+      "required": true,
+      "validation": "strict",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "custom-page-candidate",
+      "artifact_type": "custom_page_candidate",
+      "name": "定制页候选包",
+      "schema": "artifacts/custom-page-candidate.schema.json",
+      "required": true,
+      "validation": "strict",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "deployment-receipt",
+      "artifact_type": "custom_page_deployment_receipt",
+      "name": "部署回执",
+      "schema": "artifacts/deployment-receipt.schema.json",
+      "required": true,
+      "validation": "strict",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "acceptance-evidence",
+      "artifact_type": "custom_page_acceptance_evidence",
+      "name": "验收证据",
+      "schema": "artifacts/acceptance-evidence.schema.json",
+      "required": true,
+      "validation": "strict",
+      "max_bytes": 1048576
+    },
+    {
+      "id": "evidence-manifest",
+      "artifact_type": "custom_page_evidence_manifest",
+      "name": "验收证据清单",
+      "schema": "artifacts/evidence-manifest.schema.json",
+      "required": true,
+      "validation": "strict",
+      "max_bytes": 1048576
+    }
+  ],
+  "ui": {
+    "mode": "declarative",
+    "entry": "ui/workflow-view.json",
+    "surfaces": [
+      "agent",
+      "dashboard"
+    ]
+  },
+  "supported_runtimes": [
+    "codex",
+    "himind.builtin"
+  ],
+  "created_at": "2026-11-06T00:00:00Z"
+}

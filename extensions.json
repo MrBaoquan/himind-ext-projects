@@ -57,6 +57,26 @@
       "type": "skill",
       "id": "com.himind.skill.krpano-tour-assistant",
       "path": "skills/krpano-tour-assistant"
+    },
+    {
+      "type": "plugin",
+      "id": "com.himind.andx-custom-page-tools",
+      "path": "plugins/andx-custom-page-tools"
+    },
+    {
+      "type": "skill",
+      "id": "com.himind.skill.andx-custom-page-development",
+      "path": "skills/andx-custom-page-development"
+    },
+    {
+      "type": "workflow",
+      "id": "com.himind.workflow.andx-custom-page-delivery",
+      "path": "workflows/andx-custom-page-delivery"
+    },
+    {
+      "type": "skill",
+      "id": "com.himind.skill.andx-platform-integration",
+      "path": "skills/andx-platform-integration"
     }
   ]
 }

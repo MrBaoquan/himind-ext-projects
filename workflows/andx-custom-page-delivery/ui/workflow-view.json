@@ -1,0 +1,174 @@
+{
+  "schema_version": "workflow_view.v1",
+  "title": "AndX 定制页交付",
+  "sections": [
+    {
+      "id": "target",
+      "title": "交付目标",
+      "fields": [
+        {
+          "id": "version",
+          "label": "不可复用版本",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "display_mode",
+          "label": "展示模式",
+          "type": "select",
+          "required": true,
+          "default": "embedded",
+          "options": [
+            {
+              "value": "embedded",
+              "label": "平台卡片"
+            },
+            {
+              "value": "immersive",
+              "label": "沉浸全屏"
+            }
+          ]
+        },
+        {
+          "id": "build_provider",
+          "label": "构建来源",
+          "type": "select",
+          "required": true,
+          "default": "external",
+          "options": [
+            {
+              "value": "external",
+              "label": "已有静态 H5"
+            },
+            {
+              "value": "myriadbox",
+              "label": "MyriadBox Web"
+            }
+          ]
+        },
+        {
+          "id": "source_root",
+          "label": "静态产物目录",
+          "type": "text",
+          "required": false,
+          "picker": "directory",
+          "hint": "静态 H5 填写构建目录；MyriadBox 自动读取本次构建回执。"
+        },
+        {
+          "id": "workspace_root",
+          "label": "工作区",
+          "type": "text",
+          "required": true,
+          "picker": "directory"
+        }
+      ]
+    },
+    {
+      "id": "myriadbox",
+      "title": "MyriadBox 构建",
+      "fields": [
+        {
+          "id": "myriadbox_project_root",
+          "label": "MyriadBox 展项工程",
+          "type": "text",
+          "required": false,
+          "picker": "directory"
+        },
+        {
+          "id": "myriad_cli_path",
+          "label": "myriad.exe",
+          "type": "text",
+          "required": false
+        },
+        {
+          "id": "myriadbox_output_dir",
+          "label": "Web 构建输出",
+          "type": "text",
+          "required": false,
+          "picker": "directory"
+        }
+      ]
+    },
+    {
+      "id": "contract",
+      "title": "页面与测试",
+      "fields": [
+        {
+          "id": "required_capabilities",
+          "label": "必需 Bridge 能力",
+          "type": "json",
+          "required": true,
+          "default": []
+        },
+        {
+          "id": "optional_capabilities",
+          "label": "可选 Bridge 能力",
+          "type": "json",
+          "required": false,
+          "default": []
+        },
+        {
+          "id": "sdk_root",
+          "label": "@mrbaoquan/andx 包目录",
+          "type": "text",
+          "required": false,
+          "hint": "自动从工程或父级 node_modules 查找；仅自定义安装目录需要填写。"
+        },
+        {
+          "id": "bridge_test_dir",
+          "label": "Bridge 测试输出",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "chrome_path",
+          "label": "Chrome 可执行文件",
+          "type": "text",
+          "required": false
+        },
+        {
+          "id": "artifact_zip",
+          "label": "候选 ZIP 路径",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "page_actions",
+          "label": "允许的页面动作",
+          "type": "json",
+          "required": false,
+          "default": []
+        }
+      ]
+    },
+    {
+      "id": "deployment",
+      "title": "部署与验收",
+      "fields": [
+        {
+          "id": "release_reason",
+          "label": "发布说明",
+          "type": "text",
+          "required": false,
+          "default": "确认发布当前已验证候选"
+        },
+        {
+          "id": "qr_output_png",
+          "label": "二维码输出",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "evidence_items",
+          "label": "验收证据",
+          "type": "json",
+          "required": true,
+          "default": []
+        }
+      ]
+    }
+  ],
+  "actions": [
+    "develop"
+  ]
+}

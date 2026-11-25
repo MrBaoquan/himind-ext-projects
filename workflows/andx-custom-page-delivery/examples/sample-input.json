@@ -1,0 +1,23 @@
+{
+  "version": "20261106.1",
+  "display_mode": "immersive",
+  "build_provider": "myriadbox",
+  "source_root": "F:/Exhibits/QiuQianJi/artifacts/andx-web/wwwroot",
+  "workspace_root": "F:/Exhibits/QiuQianJi",
+  "myriadbox_project_root": "F:/Exhibits/QiuQianJi",
+  "myriad_cli_path": "F:/Tools/MyriadBox/myriad.exe",
+  "myriadbox_output_dir": "F:/Exhibits/QiuQianJi/artifacts/andx-web",
+  "required_capabilities": [
+    "andx\u002epayment.request"
+  ],
+  "optional_capabilities": [
+    "andx\u002estatus.read",
+    "andx\u002epayment.events",
+    "andx\u002elifecycle.events"
+  ],
+  "sdk_root": "F:/WebProjects/AndX/packages/andx-web",
+  "bridge_test_dir": "F:/Exhibits/QiuQianJi/artifacts/bridge-test",
+  "artifact_zip": "F:/Exhibits/QiuQianJi/artifacts/qiuqianji-20261106.1.zip",
+  "qr_output_png": "F:/Exhibits/QiuQianJi/artifacts/qiuqianji-qr.png",
+  "evidence_items": []
+}

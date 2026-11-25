@@ -1,0 +1,35 @@
+{
+  "id": "com.himind.skill.andx-platform-integration",
+  "name": "AndX 跨平台接入助手",
+  "author": "马宝全",
+  "categories": [
+    "software-engineering",
+    "testing-quality"
+  ],
+  "version": "0.2.0",
+  "distribution_targets": [
+    "workbench",
+    "github"
+  ],
+  "scope": "organization",
+  "description": "识别已有工程的宿主与 AndX 能力，选择 SDK、BFF、Bridge 或宿主接入路径，并按版本与证据完成适配验收。",
+  "release_notes": "区分开发者身份与设备运行身份，采用安全对话导入、工程绑定及一次性设备接入。",
+  "min_agent_version": "0.3.94",
+  "supported_clients": [
+    "agent-skills"
+  ],
+  "capabilities": [],
+  "plugin_dependencies": [],
+  "risk_summary": "可在用户授权范围内修改消费工程的接入配置与适配代码，并运行本地测试、构建和调试；凭据仅由可信宿主或部署设施提供，生产激活、外部上传与硬件动作须按任务授权执行。",
+  "contents": [
+    "skill.json",
+    "SKILL.md",
+    "agents/openai.yaml",
+    "references/platform-selection.md",
+    "references/unity.md",
+    "references/web-myriadbox.md",
+    "references/unreal.md",
+    "references/hub-netio.md",
+    "references/verification.md"
+  ]
+}

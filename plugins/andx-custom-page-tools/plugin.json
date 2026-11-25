@@ -1,0 +1,824 @@
+{
+  "id": "com.himind.andx-custom-page-tools",
+  "name": "AndX 定制页工具",
+  "author": "超级管理员",
+  "categories": [
+    "software-engineering",
+    "testing-quality"
+  ],
+  "description": "校验、测试、打包和部署 AndX 定制页静态产物。",
+  "release_notes": "开发者凭证代理、工程目标绑定、无设备预览部署、精确发布回执及 Action 契约。",
+  "version": "0.2.0",
+  "entry": "bin/andx-custom-page-tools.exe",
+  "runtime": "process-jsonrpc-stdio",
+  "platforms": [
+    "windows-x64"
+  ],
+  "min_agent_version": "0.3.94",
+  "governance": "optional",
+  "capability_namespace": "andx.page",
+  "capabilities": [
+    {
+      "id": "andx.page.project.inspect",
+      "description": "检查静态 H5 目录、入口、资源和 MyriadBox 运行时边界。",
+      "risk_level": "local_write",
+      "availability": "local",
+      "timeout_seconds": 60,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "source_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "build_receipt": {
+            "type": [
+              "object",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "project_root"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.contract.validate",
+      "description": "校验页面标识、展示模式、Bridge 能力和静态产物约束。",
+      "risk_level": "read_only",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "source_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "page_key": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "version": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "display_mode": {
+            "type": "string",
+            "enum": [
+              "embedded",
+              "immersive"
+            ]
+          },
+          "required_capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 32,
+            "uniqueItems": true
+          },
+          "optional_capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 32,
+            "uniqueItems": true
+          },
+          "built_at": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "page_actions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "project_root",
+          "source_root",
+          "page_key",
+          "version"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.package",
+      "description": "将静态 H5 目录打包为 AndX 定制页 ZIP 和 manifest。",
+      "risk_level": "local_write",
+      "availability": "local",
+      "timeout_seconds": 180,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "source_root": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "output_zip": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "page_key": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "version": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "display_mode": {
+            "type": "string",
+            "enum": [
+              "embedded",
+              "immersive"
+            ]
+          },
+          "required_capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 32,
+            "uniqueItems": true
+          },
+          "optional_capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 32,
+            "uniqueItems": true
+          },
+          "built_at": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "force": {
+            "type": "boolean"
+          },
+          "page_actions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "project_root",
+          "source_root",
+          "output_zip",
+          "page_key",
+          "version"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.test.run",
+      "description": "在真实浏览器 sandbox iframe 中测试 AndX Bridge 契约。",
+      "risk_level": "local_action",
+      "availability": "local",
+      "timeout_seconds": 180,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "sdk_root": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "output_dir": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "node_path": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "chrome_path": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "timeout_seconds": {
+            "maximum": 600,
+            "minimum": 10,
+            "type": "integer"
+          },
+          "page_root": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "public_code": {
+            "maxLength": 128,
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_root",
+          "output_dir"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.deploy.preview",
+      "description": "按工程绑定展项上传不可变候选、检查健康并生成真实 Bridge 隔离预览，无需设备。",
+      "risk_level": "network_write",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "artifact_zip": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "profile": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "仅旧版管理端兼容；普通开发流程使用工程绑定，不需填写。"
+          },
+          "expected_sha256": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "credential_ref": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "本机安全导入回执的引用；Agent 根据工程绑定自动解析。不得传密钥。"
+          },
+          "project_id": {
+            "type": "string",
+            "description": "AndX 项目编号，与工作台项目编号不同；由工程绑定解析。"
+          },
+          "exhibit_id": {
+            "type": "string",
+            "description": "AndX 展项编号，与工作台 pid 不同；由工程绑定解析。"
+          },
+          "binding_revision": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "page_key": {
+            "type": "string",
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "project_root",
+          "artifact_zip"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.deploy.activate",
+      "description": "发布精确预览制品到工程绑定展项；校验摘要与预览时线上修订。回滚时摘要指向历史目标制品。",
+      "risk_level": "network_write",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "仅旧版管理端兼容；普通开发流程使用工程绑定，不需填写。"
+          },
+          "deployment_id": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "scope": {
+            "enum": [
+              "tenant",
+              "exhibit"
+            ],
+            "type": "string"
+          },
+          "exhibit_id": {
+            "type": "string",
+            "description": "AndX 展项编号，与工作台 pid 不同；由工程绑定解析。"
+          },
+          "expected_sha256": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "reason": {
+            "maxLength": 255,
+            "type": "string"
+          },
+          "credential_ref": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "本机安全导入回执的引用；Agent 根据工程绑定自动解析。不得传密钥。"
+          },
+          "project_id": {
+            "type": "string",
+            "description": "AndX 项目编号，与工作台项目编号不同；由工程绑定解析。"
+          },
+          "project_root": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "expected_activation_id": {
+            "type": "string",
+            "pattern": "^[0-9]+$",
+            "description": "预览回执的线上修订；不得临时刷新后静默覆盖并发变更。"
+          },
+          "rollback": {
+            "type": "boolean",
+            "description": "依据精确历史回滚，expected_sha256 为回滚目的制品摘要。"
+          },
+          "binding_revision": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "page_key": {
+            "type": "string",
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "deployment_id",
+          "expected_sha256",
+          "reason",
+          "project_root"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.qr.export",
+      "description": "生成固定 /x/{publicCode} 互动二维码 PNG。",
+      "risk_level": "network_write",
+      "availability": "local",
+      "timeout_seconds": 60,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "profile": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "仅旧版管理端兼容；普通开发流程使用工程绑定，不需填写。"
+          },
+          "project_id": {
+            "type": "string",
+            "description": "AndX 项目编号，与工作台项目编号不同；由工程绑定解析。"
+          },
+          "exhibit_id": {
+            "type": "string",
+            "description": "AndX 展项编号，与工作台 pid 不同；由工程绑定解析。"
+          },
+          "output_png": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "credential_ref": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "本机安全导入回执的引用；Agent 根据工程绑定自动解析。不得传密钥。"
+          },
+          "binding_revision": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "page_key": {
+            "type": "string",
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "project_root",
+          "output_png"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.evidence.pack",
+      "description": "汇总候选包、二维码和验收附件为 SHA-256 证据清单。",
+      "risk_level": "local_write",
+      "availability": "local",
+      "timeout_seconds": 120,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "workspace_root": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "artifact_zip": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "qr_png": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "output_json": {
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "required": [
+                "path",
+                "artifact_kind"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "path": {
+                  "maxLength": 2000,
+                  "type": "string"
+                },
+                "artifact_kind": {
+                  "maxLength": 64,
+                  "type": "string"
+                },
+                "requirement_ids": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "metadata": {
+                  "additionalProperties": true,
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "workspace_root",
+          "artifact_zip",
+          "qr_png"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.device.enrollment",
+      "description": "为绑定展项签发一小时限用一次的设备接入码，需单独授权。",
+      "risk_level": "network_write",
+      "availability": "local",
+      "timeout_seconds": 40,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string"
+          },
+          "credential_ref": {
+            "type": "string"
+          },
+          "project_id": {
+            "type": "string"
+          },
+          "exhibit_id": {
+            "type": "string"
+          },
+          "binding_revision": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "page_key": {
+            "type": "string",
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "project_root"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.receipt.save",
+      "description": "保存规格或验收结构化报告供 Workflow 验证；不能伪造发布回执。",
+      "risk_level": "local_write",
+      "availability": "local",
+      "timeout_seconds": 30,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "project_root": {
+            "type": "string"
+          },
+          "artifact_id": {
+            "enum": [
+              "custom-page-spec",
+              "acceptance-evidence"
+            ]
+          },
+          "data": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "project_root",
+          "artifact_id",
+          "data"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.access.directory",
+      "description": "读取开发者实时授权目录，AndX 编号不等同工作台编号。",
+      "risk_level": "read_only",
+      "availability": "local",
+      "timeout_seconds": 40,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "credential_ref": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "project_id": {
+            "type": "string"
+          },
+          "after_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "credential_ref"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.exhibit.create",
+      "description": "在授权项目新建展项，不需要预先注册设备。",
+      "risk_level": "network_write",
+      "availability": "local",
+      "timeout_seconds": 40,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "credential_ref": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "project_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "credential_ref",
+          "project_id",
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.workspace.bind",
+      "description": "验证目标后绑定可信工程/页面根目录，重新绑定需明确选择。",
+      "risk_level": "local_write",
+      "availability": "local",
+      "timeout_seconds": 40,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "credential_ref": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "project_id": {
+            "type": "string"
+          },
+          "exhibit_id": {
+            "type": "string"
+          },
+          "project_root": {
+            "type": "string",
+            "minLength": 1
+          },
+          "page_key": {
+            "type": "string"
+          },
+          "binding_revision": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "credential_ref",
+          "project_root",
+          "project_id",
+          "exhibit_id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    {
+      "id": "andx.page.workspace.resolve",
+      "description": "读取当前页面根目录绑定并实时验证授权。",
+      "risk_level": "read_only",
+      "availability": "local",
+      "timeout_seconds": 40,
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "credential_ref": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "project_id": {
+            "type": "string"
+          },
+          "exhibit_id": {
+            "type": "string"
+          },
+          "project_root": {
+            "type": "string",
+            "minLength": 1
+          },
+          "page_key": {
+            "type": "string"
+          },
+          "binding_revision": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_root"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "id": "andx.page.project.inspect",
+        "title": "检查定制页工程"
+      },
+      {
+        "id": "andx.page.contract.validate",
+        "title": "校验定制页契约"
+      },
+      {
+        "id": "andx.page.package",
+        "title": "打包定制页"
+      },
+      {
+        "id": "andx.page.test.run",
+        "title": "测试定制页 Bridge"
+      },
+      {
+        "id": "andx.page.deploy.preview",
+        "title": "预览部署定制页"
+      },
+      {
+        "id": "andx.page.deploy.activate",
+        "title": "激活定制页"
+      },
+      {
+        "id": "andx.page.qr.export",
+        "title": "导出互动二维码"
+      },
+      {
+        "id": "andx.page.evidence.pack",
+        "title": "生成验收证据"
+      }
+    ],
+    "views": []
+  },
+  "permissions": [
+    "secret.broker.acquire",
+    "secret.import.structured",
+    "network.credential-import.endpoint"
+  ],
+  "credentials": [
+    {
+      "id": "andx.developer",
+      "label": "AndX 开发者接入",
+      "kind": "api_key",
+      "description": "后台复制开发接入信息，粘贴到 HiMind 对话后由本机自动导入。无需手工配置 Profile。",
+      "required": false,
+      "fields": [
+        {
+          "key": "endpoint",
+          "label": "AndX 服务",
+          "type": "url",
+          "secret": false,
+          "required": true
+        },
+        {
+          "key": "developer_id",
+          "label": "开发者编号",
+          "type": "text",
+          "secret": false,
+          "required": true
+        },
+        {
+          "key": "developer_key",
+          "label": "个人开发密钥",
+          "type": "password",
+          "secret": true,
+          "required": true
+        }
+      ],
+      "secure_import": {
+        "schema": "andx.developer.access.v1",
+        "fields": {
+          "endpoint": "endpoint",
+          "developer": "developer_id",
+          "developerKey": "developer_key"
+        },
+        "optional_fields": [
+          "developer"
+        ],
+        "secret_prefixes": [
+          "andx_dev_"
+        ],
+        "endpoint_field": "endpoint",
+        "bearer_field": "developer_key",
+        "verification_path": "/api/developer/self",
+        "handler": "credential.import.verify"
+      },
+      "workspace_binding": {
+        "root_field": "project_root",
+        "bind_capability": "andx.page.workspace.bind",
+        "bound_capabilities": [
+          "andx.page.workspace.resolve",
+          "andx.page.deploy.preview",
+          "andx.page.deploy.activate",
+          "andx.page.qr.export",
+          "andx.page.device.enrollment"
+        ],
+        "target_fields": [
+          "project_id",
+          "exhibit_id",
+          "page_key"
+        ]
+      },
+      "broker_capabilities": [
+        "andx.page.deploy.preview",
+        "andx.page.deploy.activate",
+        "andx.page.qr.export",
+        "andx.page.device.enrollment",
+        "andx.page.access.directory",
+        "andx.page.exhibit.create",
+        "andx.page.workspace.bind",
+        "andx.page.workspace.resolve"
+      ]
+    }
+  ],
+  "distribution_targets": [
+    "workbench",
+    "github"
+  ]
+}
