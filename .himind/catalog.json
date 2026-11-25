@@ -4,7 +4,7 @@
   "distribution_id": "mrbaoquan/himind-ext-projects",
   "channel": "stable",
   "catalog_id": "public",
-  "generation": "sync-a432efa12992a433",
+  "generation": "sync-2d2b95d2f3c3b2e8",
   "plugins": [
     {
       "allow_disable": true,
@@ -68,7 +68,111 @@
       "view_count": 0
     }
   ],
-  "skills": [],
+  "skills": [
+    {
+      "allow_disable": true,
+      "allow_uninstall": true,
+      "artifact_id": "github:skill/com.himind.skill.andx-custom-page-development@0.2.0:com.himind.skill.andx-custom-page-development-0.2.0.hmskill",
+      "artifact_sha256": "9b9a56827bdf4bc99ae90ccbf797c3fbe14aedc7fc88f2b6ba269572767dfecd",
+      "assignment": "optional",
+      "author_name": "马宝全",
+      "capability_ids": [
+        "andx.page.project.inspect",
+        "andx.page.contract.validate",
+        "andx.page.test.run",
+        "andx.page.package",
+        "andx.page.deploy.preview",
+        "andx.page.deploy.activate",
+        "andx.page.qr.export",
+        "exhibit.web.build",
+        "exhibit.web.experience.inspect",
+        "andx.page.evidence.pack",
+        "andx.page.access.directory",
+        "andx.page.workspace.bind",
+        "andx.page.workspace.resolve",
+        "andx.page.exhibit.create",
+        "andx.page.device.enrollment",
+        "andx.page.receipt.save"
+      ],
+      "categories": [
+        "software-engineering",
+        "testing-quality"
+      ],
+      "channel": "stable",
+      "dependencies": [
+        {
+          "kind": "plugin",
+          "id": "com.himind.andx-custom-page-tools",
+          "required": false,
+          "min_version": "0.2.0",
+          "version": "0.2.0",
+          "sha256": "2969703357758e0093ce50342b7f010010755b42877bcb040683e626b5a5d8f1",
+          "source": {
+            "kind": "github",
+            "id": "github:MrBaoquan/himind-ext-projects",
+            "repository": "MrBaoquan/himind-ext-projects",
+            "reference": "plugin/com.himind.andx-custom-page-tools@0.2.0",
+            "artifact_url": "https://github.com/MrBaoquan/himind-ext-projects/releases/download/plugin%2Fcom.himind.andx-custom-page-tools@0.2.0/com.himind.andx-custom-page-tools-0.2.0.hmpkg"
+          },
+          "pinned": true
+        },
+        {
+          "kind": "plugin",
+          "id": "com.himind.exhibit-development-tools",
+          "required": false,
+          "min_version": "0.6.0",
+          "version": "0.6.0",
+          "sha256": "",
+          "source": {
+            "kind": "",
+            "id": "",
+            "repository": "",
+            "reference": "",
+            "artifact_url": ""
+          },
+          "pinned": false
+        }
+      ],
+      "description": "使用任意静态 H5 或 MyriadBox Web 产物开发和交付 AndX 定制页。",
+      "download_url": "https://github.com/MrBaoquan/himind-ext-projects/releases/download/skill%2Fcom.himind.skill.andx-custom-page-development@0.2.0/com.himind.skill.andx-custom-page-development-0.2.0.hmskill",
+      "file_name": "com.himind.skill.andx-custom-page-development-0.2.0.hmskill",
+      "file_size": 10769,
+      "install_mode": "prompt",
+      "managed": false,
+      "management": "user_managed",
+      "min_agent_version": "0.3.94",
+      "name": "AndX 定制页开发助手",
+      "organization_reason": "",
+      "plugin_dependencies": [
+        {
+          "min_version": "0.2.0",
+          "plugin_id": "com.himind.andx-custom-page-tools",
+          "required": false
+        },
+        {
+          "min_version": "0.6.0",
+          "plugin_id": "com.himind.exhibit-development-tools",
+          "required": false
+        }
+      ],
+      "published_at": "2026-11-25T10:05:42Z",
+      "release_notes": "支持开发者凭证安全导入、独立工程绑定、无设备交付与修订保护。",
+      "release_tag": "skill/com.himind.skill.andx-custom-page-development@0.2.0",
+      "risk_summary": "由本机安全导入个人开发凭证，按工程绑定上传候选与发布；不向模型、网页、设备或公共制品传递开发密钥。生产操作按任务明确授权与精确回执执行。",
+      "sha256": "9b9a56827bdf4bc99ae90ccbf797c3fbe14aedc7fc88f2b6ba269572767dfecd",
+      "signature": "NfNsvZ2rVjLLdMomgkZKhEjmhc4/BNEopa19KctNuIWFI+WQAwCAh+EsYCGQpVq42mH785ywZO0z277T/ahDtl4JIc1wnab3fk+3l88Ka1xuxfvAvygkmVSWRTrEYEaI0h2fkcZKpLt1A8dEnVkzucdCbWlX4S4c0M548KNsDNeD3iMpeDSlQUcvSJmlu7+FGO5YI3u3Mgtt78MYAKDPW+AdBGEt8e0xUT8uovnmCfLu2fmdbwk4gQZcCqz2AQ1Bnr0Qfn/vmb9gGJKn9IyQZDsaXcWmbsXMHDOcugErmWKLa3wzr5TqX3GYCPvJ62Ts9Zp5ptkAhcLtFWrDlwmZGA==",
+      "signature_algorithm": "rsa-pss-sha256",
+      "signature_key_id": "himind-extension-production-2026",
+      "skill_id": "com.himind.skill.andx-custom-page-development",
+      "source": "github",
+      "source_commit": "f77c4ccbbe78687f01d121577c2d5888a5ac29c0",
+      "source_tree": "1d588c38abc9da86ed6f1cf817587584a8e4af1d",
+      "supported_clients": [
+        "agent-skills"
+      ],
+      "version": "0.2.0"
+    }
+  ],
   "workflows": [],
   "feature_packs": []
 }
