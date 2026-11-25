@@ -4,7 +4,7 @@
   "distribution_id": "mrbaoquan/himind-ext-projects",
   "channel": "stable",
   "catalog_id": "public",
-  "generation": "sync-46835e9e0fb753ba",
+  "generation": "sync-67fa42b2c9a406e7",
   "plugins": [
     {
       "allow_disable": true,
@@ -215,6 +215,223 @@
       "version": "0.2.0"
     }
   ],
-  "workflows": [],
+  "workflows": [
+    {
+      "allow_disable": true,
+      "allow_uninstall": true,
+      "artifact_id": "github:workflow/com.himind.workflow.andx-custom-page-delivery@0.2.0:com.himind.workflow.andx-custom-page-delivery-0.2.0.hmwf",
+      "artifact_sha256": "5c80088b0e23f3314a46bac3ad193169f265e66b9248ebd6b8ddc817eee81f13",
+      "assignment": "optional",
+      "author_name": "",
+      "capability_ids": [
+        "andx.page.workspace.resolve",
+        "exhibit.web.build",
+        "exhibit.web.experience.inspect",
+        "andx.page.project.inspect",
+        "andx.page.contract.validate",
+        "andx.page.test.run",
+        "andx.page.package",
+        "andx.page.deploy.preview",
+        "andx.page.deploy.activate",
+        "andx.page.qr.export",
+        "andx.page.evidence.pack",
+        "andx.page.receipt.save"
+      ],
+      "categories": [],
+      "channel": "stable",
+      "dependencies": [
+        {
+          "kind": "plugin",
+          "id": "com.himind.andx-custom-page-tools",
+          "required": true,
+          "min_version": "0.2.0",
+          "version": "0.2.0",
+          "sha256": "2969703357758e0093ce50342b7f010010755b42877bcb040683e626b5a5d8f1",
+          "source": {
+            "kind": "github",
+            "id": "github:MrBaoquan/himind-ext-projects",
+            "repository": "MrBaoquan/himind-ext-projects",
+            "reference": "plugin/com.himind.andx-custom-page-tools@0.2.0",
+            "artifact_url": "https://github.com/MrBaoquan/himind-ext-projects/releases/download/plugin%2Fcom.himind.andx-custom-page-tools@0.2.0/com.himind.andx-custom-page-tools-0.2.0.hmpkg"
+          },
+          "pinned": true
+        },
+        {
+          "kind": "plugin",
+          "id": "com.himind.exhibit-development-tools",
+          "required": false,
+          "min_version": "0.6.0",
+          "version": "0.6.0",
+          "sha256": "",
+          "source": {
+            "kind": "",
+            "id": "",
+            "repository": "",
+            "reference": "",
+            "artifact_url": ""
+          },
+          "pinned": false
+        },
+        {
+          "kind": "skill",
+          "id": "com.himind.skill.andx-custom-page-development",
+          "required": true,
+          "min_version": "0.2.0",
+          "version": "0.2.0",
+          "sha256": "9b9a56827bdf4bc99ae90ccbf797c3fbe14aedc7fc88f2b6ba269572767dfecd",
+          "source": {
+            "kind": "github",
+            "id": "github:MrBaoquan/himind-ext-projects",
+            "repository": "MrBaoquan/himind-ext-projects",
+            "reference": "skill/com.himind.skill.andx-custom-page-development@0.2.0",
+            "artifact_url": "https://github.com/MrBaoquan/himind-ext-projects/releases/download/skill%2Fcom.himind.skill.andx-custom-page-development@0.2.0/com.himind.skill.andx-custom-page-development-0.2.0.hmskill"
+          },
+          "pinned": true
+        }
+      ],
+      "description": "从静态 H5 或 MyriadBox Web 产物到 AndX 定制页测试、预览、人工审批、激活、二维码和证据验收。",
+      "download_url": "https://github.com/MrBaoquan/himind-ext-projects/releases/download/workflow%2Fcom.himind.workflow.andx-custom-page-delivery@0.2.0/com.himind.workflow.andx-custom-page-delivery-0.2.0.hmwf",
+      "extension_lock": {
+        "dependencies": [
+          {
+            "id": "com.himind.andx-custom-page-tools",
+            "kind": "plugin",
+            "required": true,
+            "sha256": "9c0c3a2d9a6acd76315b65f5753464d361cddeb2f02b277ba276a9bb3ec232f8",
+            "source_id": "MrBaoquan/himind-ext-projects",
+            "version": "0.2.0"
+          },
+          {
+            "id": "com.himind.skill.andx-custom-page-development",
+            "kind": "skill",
+            "required": true,
+            "sha256": "9e1f0de41ae74827769cb1344c3b78ee416f3de3dfdd37b41878b51c64a84db6",
+            "source_id": "MrBaoquan/himind-ext-projects",
+            "version": "0.2.0"
+          }
+        ],
+        "environment": {
+          "capabilities": [
+            {
+              "availability": "local",
+              "id": "andx.page.workspace.resolve",
+              "provider": "plugin:com.himind.andx-custom-page-tools",
+              "required": true
+            },
+            {
+              "id": "exhibit.web.build",
+              "required": true
+            },
+            {
+              "id": "exhibit.web.experience.inspect",
+              "required": true
+            },
+            {
+              "availability": "local",
+              "id": "andx.page.project.inspect",
+              "provider": "plugin:com.himind.andx-custom-page-tools",
+              "required": true
+            },
+            {
+              "availability": "local",
+              "id": "andx.page.contract.validate",
+              "provider": "plugin:com.himind.andx-custom-page-tools",
+              "required": true
+            },
+            {
+              "availability": "local",
+              "id": "andx.page.test.run",
+              "provider": "plugin:com.himind.andx-custom-page-tools",
+              "required": true
+            },
+            {
+              "availability": "local",
+              "id": "andx.page.package",
+              "provider": "plugin:com.himind.andx-custom-page-tools",
+              "required": true
+            },
+            {
+              "availability": "local",
+              "id": "andx.page.deploy.preview",
+              "provider": "plugin:com.himind.andx-custom-page-tools",
+              "required": true
+            },
+            {
+              "availability": "local",
+              "id": "andx.page.deploy.activate",
+              "provider": "plugin:com.himind.andx-custom-page-tools",
+              "required": true
+            },
+            {
+              "availability": "local",
+              "id": "andx.page.qr.export",
+              "provider": "plugin:com.himind.andx-custom-page-tools",
+              "required": true
+            },
+            {
+              "availability": "local",
+              "id": "andx.page.evidence.pack",
+              "provider": "plugin:com.himind.andx-custom-page-tools",
+              "required": true
+            },
+            {
+              "availability": "local",
+              "id": "andx.page.receipt.save",
+              "provider": "plugin:com.himind.andx-custom-page-tools",
+              "required": true
+            }
+          ],
+          "connectors": [],
+          "runtimes": [
+            {
+              "id": "codex",
+              "required": true,
+              "status": "unavailable"
+            },
+            {
+              "id": "himind.builtin",
+              "required": true,
+              "status": "unavailable"
+            },
+            {
+              "id": "personal.codex",
+              "required": false,
+              "status": "ready",
+              "version": "codex-cli 0.171.0-alpha.13"
+            }
+          ]
+        },
+        "generated_at": "unix-ms:1795601611241",
+        "root": {
+          "id": "com.himind.workflow.andx-custom-page-delivery",
+          "kind": "workflow",
+          "sha256": "5c80088b0e23f3314a46bac3ad193169f265e66b9248ebd6b8ddc817eee81f13",
+          "version": "0.2.0"
+        },
+        "schema_version": "extension_lock.v1"
+      },
+      "file_name": "com.himind.workflow.andx-custom-page-delivery-0.2.0.hmwf",
+      "file_size": 11019,
+      "install_mode": "prompt",
+      "managed": false,
+      "management": "user_managed",
+      "min_agent_version": "0.3.94",
+      "name": "AndX 定制页交付",
+      "organization_reason": "",
+      "plugin_dependencies": [],
+      "published_at": "2026-11-25T10:13:37Z",
+      "release_notes": "使用工程绑定与步骤回执自动衔接候选、隔离预览、精确激活和固定二维码；无需配置部署 Profile。",
+      "release_tag": "workflow/com.himind.workflow.andx-custom-page-delivery@0.2.0",
+      "sha256": "5c80088b0e23f3314a46bac3ad193169f265e66b9248ebd6b8ddc817eee81f13",
+      "signature": "bXcluCb3f9L8y6Kyn3lkBSnzalv3zjb2dSjYNL0yqU5evUq5qZJoIITfwzvGQh5zhntQpQ2ZKmZu2POJkIyZcb8vybVj0OQ2TpkD76M3tRyLBc37+zNQnvcrCqG7NahFJQf4bly6FDwq5hcTniU/nNzq5OooN0kkun7DATTT89AyYbqL8i3GdIo1U8CIvQIvfsnTU3RqcqpaGg6x6uQahLdsM3Jst035aqiAkHX3P+DOmx0y3IpRRhe3vqrFyCclBfbnBRS2rToaYKLfMKcw0kmZAjjLSC8G8s8UUUpPWasi2yBOgprEN+ydnwfPI5RPwZqp3uwMmbCzUQo9635/4w==",
+      "signature_algorithm": "rsa-pss-sha256",
+      "signature_key_id": "himind-extension-production-2026",
+      "source": "github",
+      "source_commit": "877f8e1e202b8910987c2c0a5f80d0e734c77530",
+      "source_tree": "b0ce9573afbe98ffc227ada1da3b9a35297ab0aa",
+      "version": "0.2.0",
+      "workflow_id": "com.himind.workflow.andx-custom-page-delivery"
+    }
+  ],
   "feature_packs": []
 }
