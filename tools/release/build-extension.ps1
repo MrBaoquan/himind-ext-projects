@@ -89,8 +89,8 @@ elseif ($Kind -eq 'plugin') {
         try { & go test ./... }
         finally { Pop-Location }
         if ($LASTEXITCODE -ne 0) { throw 'Plugin tests failed.' }
-        Push-Location $repoRoot
-        try { & go build -o $binary "./$($ExtensionPath.Replace('\', '/'))" }
+        Push-Location $source
+        try { & go build -o $binary . }
         finally { Pop-Location }
         if ($LASTEXITCODE -ne 0) { throw 'Plugin build failed.' }
         # 随包文件按 pluginpack 的排除法整份摊平：这里曾经是「plugin.json + ui/ +
